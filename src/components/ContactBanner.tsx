@@ -54,6 +54,7 @@ export default function ContactBanner() {
         }}
       >
         <motion.div
+          className="contact-grid"
           initial={{ opacity: 0, y: 35 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -153,16 +154,12 @@ export default function ContactBanner() {
                 gap: '14px',
               }}
             >
-              {/* INPUT WRAP FUNCTION STYLE */}
               {[
                 { icon: User, placeholder: 'Full Name' },
                 { icon: Phone, placeholder: 'Phone Number' },
                 { icon: MapPin, placeholder: 'Suburb / Location' },
               ].map((field, i) => (
-                <div
-                  key={i}
-                  style={inputWrap}
-                >
+                <div key={i} style={inputWrap}>
                   <field.icon size={16} color="#0087f2" />
                   <input
                     placeholder={field.placeholder}
@@ -179,7 +176,6 @@ export default function ContactBanner() {
                 </div>
               ))}
 
-              {/* MESSAGE */}
               <div style={{ ...inputWrap, alignItems: 'flex-start' }}>
                 <MessageSquare size={16} color="#0087f2" />
                 <textarea
@@ -200,7 +196,6 @@ export default function ContactBanner() {
                 />
               </div>
 
-              {/* BUTTON */}
               <button
                 type="submit"
                 style={{
@@ -234,6 +229,15 @@ export default function ContactBanner() {
           </div>
         </motion.div>
       </div>
+
+      {/* MOBILE RESPONSIVE RULE */}
+      <style>{`
+        @media (max-width: 768px) {
+          .contact-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }

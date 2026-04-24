@@ -1,54 +1,67 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react'
+import { Star, ChevronLeft, ChevronRight} from 'lucide-react'
 
 const testimonials = [
   {
-    name: 'Sarah M.',
-    location: 'Rockingham, WA',
+    name: 'Youssef Aria',
+    location: 'Google Review',
     rating: 5,
-    text: "Absolute legends. My driveway looked like it was brand new after they were done. I didn't think it could ever look that good again after 8 years of grime. Worth every cent.",
-    service: 'Driveway Cleaning',
-    initials: 'SM',
+    text: "I couldn’t be happier with the work done by Prestige Pressure Solutions. They did an excellent job cleaning my driveway and backyard patio, both came up looking brand new. Highly recommend!",
+    service: 'Driveway & Patio Cleaning',
+    initials: 'YA',
+    avatar: 'https://lh3.googleusercontent.com/a/ACg8ocJKNzdq5oj3ELq9Y4tbAdZisfFvjTXzIRgG6FKebEBvz2ywKw=w90-h90-p-rp-mo-br100',
   },
   {
-    name: 'James T.',
-    location: 'Baldivis, WA',
+    name: 'Shack',
+    location: 'Google Review',
     rating: 5,
-    text: "Used Prestige for a full house wash before we listed it for sale. The real estate agent couldn't believe the difference — the house literally looked like it had a fresh coat of paint. Highly recommended.",
-    service: 'House Washing',
-    initials: 'JT',
+    text: "Highly recommend Prestige Pressure Solutions I recently hired them for pressure washing for my back yard, drive way and patio, the results were outstanding. They were very professional, thorough and explained every step of the process. Their pricing was fair, and the quality far exceeded my expectations. I highly recommend them to anyone looking for reliable and high-quality pressure washing services.",
+    service: 'Pressure Washing',
+    initials: 'SH',
+    avatar: 'https://lh3.googleusercontent.com/a/ACg8ocLtWmleu1_KRV4FkJ1Clh_kwsSEhYjZpq0DJ7mgPZfBzPz4Gg=w90-h90-p-rp-mo-br100',
   },
   {
-    name: 'Karen & Dave P.',
-    location: 'Kwinana, WA',
+    name: 'Nolo',
+    location: 'Google Review',
     rating: 5,
-    text: "Super professional, showed up on time, gave us a fair price. Our roof had black streaks all over it for years. It's completely gone. We've already booked them for the gutters next month.",
-    service: 'Roof Cleaning',
-    initials: 'KP',
+    text: "Prestige Pressure Solutions did an amazing job. They were professional, quick, and the results were outstanding. My property looks cleaner than it has in years. Great communication and fair pricing as well. Highly recommend their services!",
+    service: 'Property Cleaning',
+    initials: 'NO',
+    avatar: 'https://lh3.googleusercontent.com/a-/ALV-UjUs_3TxaR-m0FTIsuGTC11hyND1Oq-fM-qVUn9nHkipQcGBwXU=w90-h90-p-rp-mo-br100',
   },
   {
-    name: 'Michael R.',
-    location: 'Mandurah, WA',
+    name: 'Frouzan Yarmohamm',
+    location: 'Google Review',
     rating: 5,
-    text: "I run a rental property and keeping it presentable is important. These guys have been amazing for end-of-lease cleans. Reliable, thorough and the price is always fair.",
+    text: "Prestige pressure solutions cleaned the driveway and Bbq area of my house. Hanz did a fantastic job cleaning all the stains n molds. Great professional and well spoken guys and team work. The follow up call add that extra, that you don’t get now a days. I would recommend him strongly.",
+    service: 'Driveway & BBQ Cleaning',
+    initials: 'FY',
+    avatar: 'https://lh3.googleusercontent.com/a/ACg8ocIPVjM6TCPWNY-vq9S2B-_iuqBNmie8bmj06QyoShviWtLS3g=w90-h90-p-rp-mo-br100',
+  },
+  {
+    name: 'Katie Trinh',
+    location: 'Google Review',
+    rating: 5,
+    text: "I recently had Prestige Pressure Solutions take care of my property, and I couldn’t be happier with the experience. They truly made my house feel like home again. The team took their time and paid attention to every detail, leaving everything looking fresh, clean, and almost brand new. On top of their amazing work, they were incredibly friendly and professional.",
     service: 'Full Property Clean',
-    initials: 'MR',
+    initials: 'KT',
+    avatar: 'https://lh3.googleusercontent.com/a/ACg8ocLH5xRwIOO_77hLQqCNRg0GzG2bYUgcCt5YuPnr52kKTIeNoA=w90-h90-p-rp-mo-br100',
   },
   {
-    name: 'Tracey B.',
-    location: 'Bibra Lake, WA',
+    name: 'Gucci Maynne',
+    location: 'Google Review',
     rating: 5,
-    text: "My fences and paths were covered in green algae. They came out the next day after I called and it was all gone in a couple of hours. So easy to deal with. Couldn't be happier.",
-    service: 'Fence & Path Cleaning',
-    initials: 'TB',
+    text: "Had an amazing experience with Prestige Pressure Solutions! They did a full clean of my house exterior, driveway, and windows (inside and out), and the results were honestly better than I expected. Everything looks fresh, bright, and like new again. The team was professional, on time, and really paid attention to detail.",
+    service: 'Full Exterior Clean',
+    initials: 'GM',
+    avatar: 'https://lh3.googleusercontent.com/a-/ALV-UjU9oS2LaV03YZRlHCQ6uIVCRclAhJYu96WnkPiZ_d5_f9xUwCHr=w90-h90-p-rp-mo-br100',
   },
 ]
 
 export default function Testimonials() {
   const [current, setCurrent] = useState(0)
   const [direction, setDirection] = useState(1)
-  const [paused, setPaused] = useState(false)
 
   const next = useCallback(() => {
     setDirection(1)
@@ -60,31 +73,20 @@ export default function Testimonials() {
     setCurrent(c => (c - 1 + testimonials.length) % testimonials.length)
   }, [])
 
-  useEffect(() => {
-    if (paused) return
-    const timer = setInterval(next, 5500)
-    return () => clearInterval(timer)
-  }, [next, paused])
-
   const t = testimonials[current]
 
   return (
-    <section id="testimonials" style={{ background: '#0a0a0a', padding: '7rem 2rem', position: 'relative', overflow: 'hidden' }}>
-      {/* Background elements */}
-      <div style={{
-        position: 'absolute', top: '10%', right: '-10%',
-        width: '500px', height: '500px', borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(0,136,242,0.04) 0%, transparent 60%)',
-        pointerEvents: 'none',
-      }} />
-      <div style={{
-        position: 'absolute', bottom: '10%', left: '-5%',
-        width: '300px', height: '300px', borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(0,136,242,0.06) 0%, transparent 60%)',
-        pointerEvents: 'none',
-      }} />
-
+    <section
+      id="testimonials"
+      style={{
+        background: '#0a0a0a',
+        padding: '7rem 2rem',
+        position: 'relative',
+        overflow: 'hidden'
+      }}
+    >
       <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -93,15 +95,21 @@ export default function Testimonials() {
           style={{ textAlign: 'center', marginBottom: '5rem' }}
         >
           <div style={{
-            fontFamily: 'var(--font-condensed)', fontWeight: 700, fontSize: '12px',
-            letterSpacing: '0.2em', color: 'var(--accent)', marginBottom: '1rem',
+            fontFamily: 'var(--font-condensed)',
+            fontWeight: 700,
+            fontSize: '12px',
+            letterSpacing: '0.2em',
+            color: 'var(--accent)',
+            marginBottom: '1rem',
           }}>
             — WHAT PERTH IS SAYING
           </div>
+
           <h2 style={{
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(52px, 7vw, 90px)',
-            color: 'white', lineHeight: 0.92,
+            color: 'white',
+            lineHeight: 0.92,
           }}>
             REAL PEOPLE.<br />
             <span style={{ color: 'var(--accent)' }}>REAL RESULTS.</span>
@@ -109,11 +117,7 @@ export default function Testimonials() {
         </motion.div>
 
         {/* Slider */}
-        <div
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          style={{ position: 'relative' }}
-        >
+        <div style={{ position: 'relative' }}>
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={current}
@@ -136,28 +140,16 @@ export default function Testimonials() {
                 overflow: 'hidden',
               }}
             >
-              {/* Accent top border */}
-              <div style={{
-                position: 'absolute', top: 0, left: '10%', right: '10%', height: '1px',
-                background: 'linear-gradient(90deg, transparent, var(--accent), transparent)',
-              }} />
 
-              {/* Quote icon */}
-              <div style={{ marginBottom: '1.5rem' }}>
-                <Quote size={36} color="rgba(0,136,242,0.3)" fill="rgba(0,136,242,0.1)" />
-              </div>
-
-              {/* Stars */}
               <div style={{ display: 'flex', gap: '4px', marginBottom: '1.5rem' }}>
                 {[...Array(t.rating)].map((_, i) => (
                   <Star key={i} size={18} fill="#0088f2" color="#0088f2" />
                 ))}
               </div>
 
-              {/* Text */}
               <p style={{
                 fontFamily: 'var(--font-body)',
-                fontSize: 'clamp(17px, 2.2vw, 22px)',
+                fontSize: 'clamp(17px, 2.2vw, 18px)',
                 lineHeight: 1.65,
                 color: 'rgba(255,255,255,0.85)',
                 marginBottom: '2.5rem',
@@ -167,17 +159,24 @@ export default function Testimonials() {
                 "{t.text}"
               </p>
 
-              {/* Author row */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                   <div style={{
-                    width: '48px', height: '48px', borderRadius: '50%',
-                    background: 'linear-gradient(135deg, var(--accent), #0044aa)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontFamily: 'var(--font-condensed)', fontWeight: 800, fontSize: '16px', color: 'white',
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
                   }}>
-                    {t.initials}
+                    <img
+                      src={t.avatar}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
                   </div>
+
                   <div>
                     <div style={{ fontFamily: 'var(--font-condensed)', fontWeight: 700, fontSize: '17px', color: 'white' }}>
                       {t.name}
@@ -187,11 +186,17 @@ export default function Testimonials() {
                     </div>
                   </div>
                 </div>
+
                 <div style={{
-                  background: 'rgba(0,136,242,0.1)', border: '1px solid rgba(0,136,242,0.2)',
-                  borderRadius: '100px', padding: '6px 16px',
-                  fontFamily: 'var(--font-condensed)', fontWeight: 600, fontSize: '12px',
-                  letterSpacing: '0.08em', color: 'var(--accent)',
+                  background: 'rgba(0,136,242,0.1)',
+                  border: '1px solid rgba(0,136,242,0.2)',
+                  borderRadius: '100px',
+                  padding: '6px 16px',
+                  fontFamily: 'var(--font-condensed)',
+                  fontWeight: 600,
+                  fontSize: '12px',
+                  letterSpacing: '0.08em',
+                  color: 'var(--accent)',
                 }}>
                   {t.service.toUpperCase()}
                 </div>
@@ -201,7 +206,9 @@ export default function Testimonials() {
 
           {/* Controls */}
           <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             marginTop: '2.5rem',
           }}>
             <div style={{ display: 'flex', gap: '8px' }}>
@@ -214,7 +221,8 @@ export default function Testimonials() {
                     height: '8px',
                     borderRadius: '100px',
                     background: i === current ? 'var(--accent)' : 'rgba(255,255,255,0.2)',
-                    border: 'none', cursor: 'pointer',
+                    border: 'none',
+                    cursor: 'pointer',
                     transition: 'all 0.3s ease',
                     padding: 0,
                   }}
@@ -223,63 +231,102 @@ export default function Testimonials() {
             </div>
 
             <div style={{ display: 'flex', gap: '10px' }}>
-              <button
-                onClick={prev}
-                style={{
-                  width: '44px', height: '44px', borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  cursor: 'pointer', color: 'white',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'all 0.2s',
-                }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent)'; (e.currentTarget as HTMLElement).style.color = 'var(--accent)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.1)'; (e.currentTarget as HTMLElement).style.color = 'white' }}
-              >
+              <button onClick={prev} style={{
+                width: '44px',
+                height: '44px',
+                borderRadius: '50%',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                cursor: 'pointer',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
                 <ChevronLeft size={18} />
               </button>
-              <button
-                onClick={next}
-                style={{
-                  width: '44px', height: '44px', borderRadius: '50%',
-                  background: 'var(--accent)',
-                  border: '1px solid var(--accent)',
-                  cursor: 'pointer', color: 'white',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'all 0.2s',
-                }}
-                onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = 'var(--accent-dark)'}
-                onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'var(--accent)'}
-              >
+
+              <button onClick={next} style={{
+                width: '44px',
+                height: '44px',
+                borderRadius: '50%',
+                background: 'var(--accent)',
+                border: '1px solid var(--accent)',
+                cursor: 'pointer',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
                 <ChevronRight size={18} />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Trust indicators */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          style={{
-            marginTop: '4rem',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2.5rem',
-            flexWrap: 'wrap',
-          }}
-        >
-          {['Google Reviews', 'Facebook', 'Word of Mouth'].map(platform => (
-            <div key={platform} style={{
-              display: 'flex', alignItems: 'center', gap: '8px',
-              fontFamily: 'var(--font-condensed)', fontWeight: 600, fontSize: '13px',
-              letterSpacing: '0.08em', color: 'rgba(255,255,255,0.35)',
+        {/* GOOGLE TRUST SECTION (CLICKABLE + HOVERABLE) */}
+        <div style={{
+          marginTop: '4rem',
+          display: 'flex',
+          justifyContent: 'center',
+        }}>
+          <a
+            href="https://www.google.com/search?sca_esv=e42243e293ad428e&rlz=1C1CHBF_enAU1094AU1094&sxsrf=ANbL-n7fdYhpTlROYogDUYeW8reShtwSgg:1777009370296&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qObHOCC6vfESMX3_p0c5khPuQK56to-6qeITa09Op6Q3Y29lDOl2_meTJbw0d4y0-3S-DLGSz0tEdLf9z8kGV1uDQIAn-tCfZTA58avqOeBrzKPtm7w%3D%3D&q=Prestige+Pressure+Solutions+Reviews&sa=X&ved=2ahUKEwjgup3i44WUAxVJRmwGHSpGHpUQ0bkNegQIMxAF&biw=1536&bih=730&dpr=1.25"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '14px',
+              padding: '12px 18px',
+              borderRadius: '999px',
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.03)')}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+          >
+            <img
+              src="https://static.vecteezy.com/system/resources/previews/046/861/647/original/google-logo-transparent-background-free-png.png"
+              alt="Google"
+              style={{ width: 34, height: 34, objectFit: 'contain' }}
+            />
+
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+              lineHeight: 1,
+              minWidth: 120,
             }}>
-              <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--accent)' }} />
-              {platform.toUpperCase()}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '2px',
+              }}>
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={14} fill="#FFD700" color="#FFD700" />
+                ))}
+              </div>
+
+              <div style={{
+                fontSize: '11px',
+                color: 'rgba(255,255,255,0.65)',
+                marginTop: '4px',
+                fontWeight: 600,
+              }}>
+                16 reviews
+              </div>
             </div>
-          ))}
-        </motion.div>
+          </a>
+        </div>
+
       </div>
     </section>
   )

@@ -86,7 +86,7 @@ export default function Services() {
             marginBottom: '1rem',
             textTransform: 'uppercase'
           }}>
-            Services
+            — Services
           </div>
 
           <h2 style={{
@@ -112,7 +112,7 @@ export default function Services() {
           </p>
         </div>
 
-        {/* ===== TABS ===== */}
+        {/* ===== TABS (UPDATED STYLE) ===== */}
         <div className="tabs">
           {tabs.map((tab) => (
             <button
@@ -214,31 +214,34 @@ export default function Services() {
 
       {/* STYLES */}
       <style>{`
+        /* ===== TAB STYLE UPDATED TO MATCH WHO WE SERVE ===== */
         .tabs {
           display: flex;
-          gap: 8px;
-          background: #f1f3f5;
-          padding: 6px;
-          border-radius: 12px;
-          width: fit-content;
+          gap: 0;
+          border-bottom: 1px solid rgba(0,0,0,0.08);
           margin: 0 auto 2.5rem;
+          justify-content: center;
+          overflow-x: auto;
         }
 
         .tab {
+          background: none;
           border: none;
-          padding: 10px 16px;
-          border-radius: 10px;
-          background: transparent;
+          border-bottom: 2px solid transparent;
+          padding: 14px 22px;
+          font-family: var(--font-condensed);
+          font-weight: 700;
           font-size: 13px;
-          font-weight: 600;
+          letter-spacing: 0.1em;
+          color: rgba(0,0,0,0.45);
           cursor: pointer;
-          color: #555;
+          white-space: nowrap;
           transition: all 0.25s ease;
         }
 
         .tab.active {
-          background: #0f172a;
-          color: white;
+          color: #000;
+          border-bottom: 2px solid var(--accent);
         }
 
         .services-grid {
@@ -327,9 +330,12 @@ export default function Services() {
         }
 
         @media (max-width: 500px) {
+          .tabs {
+            justify-content: flex-start;
+          }
+
           .services-grid {
             grid-template-columns: 1fr;
-            grid-auto-rows: 190px;
           }
         }
       `}</style>

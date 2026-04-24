@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Phone } from 'lucide-react'
 import logo from '../assets/logo.png' // adjust path if needed
 
-const links = ['Services', 'Projects', 'Testimonials', 'FAQ']
+const links = ['Services', 'Testimonials','Projects', 'FAQ']
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
