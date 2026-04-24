@@ -39,13 +39,23 @@ const stats = [
   { num: '0', label: 'COMPLAINTS' },
 ]
 
-function SliderCard({ project, index }) {
+type Project = {
+  title: string
+  location: string
+  tag: string
+  before: string
+  after: string
+}
+
+function SliderCard({ project, index }: { project: Project; index: number }) {
   const wrapRef = useRef(null)
   const beforeRef = useRef(null)
   const dividerRef = useRef(null)
   const dragging = useRef(false)
 
-  const setPos = (clientX) => {
+  const setPos = (clientX: number) => {
+    if (!wrapRef.current || !beforeRef.current || !dividerRef.current) return
+
     const rect = wrapRef.current.getBoundingClientRect()
     const pct = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100))
     beforeRef.current.style.clipPath = `inset(0 ${100 - pct}% 0 0)`
@@ -53,9 +63,9 @@ function SliderCard({ project, index }) {
   }
 
   useEffect(() => {
-    const onMouseMove = (e) => dragging.current && setPos(e.clientX)
+    const onMouseMove = (e: MouseEvent) => dragging.current && setPos(e.clientX)
     const onMouseUp = () => (dragging.current = false)
-    const onTouchMove = (e) => dragging.current && setPos(e.touches[0].clientX)
+    const onTouchMove = (e: TouchEvent) => dragging.current && setPos(e.touches[0].clientX)
     const onTouchEnd = () => (dragging.current = false)
 
     window.addEventListener('mousemove', onMouseMove)
@@ -87,11 +97,11 @@ function SliderCard({ project, index }) {
       {/* SLIDER */}
       <div
         ref={wrapRef}
-        onMouseDown={(e) => {
+        onMouseDown={(e: React.MouseEvent) => {
           dragging.current = true
           setPos(e.clientX)
         }}
-        onTouchStart={(e) => {
+        onTouchStart={(e: React.TouchEvent) => {
           dragging.current = true
           setPos(e.touches[0].clientX)
         }}

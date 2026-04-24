@@ -63,7 +63,7 @@ const services = [
 const tabs = ['All Services', 'Cleaning', 'Restoration', 'Specialist']
 
 export default function Services() {
-  const [expanded, setExpanded] = useState(null)
+  const [expanded, setExpanded] = useState<number | null>(null)
   const [activeTab, setActiveTab] = useState('All Services')
 
   const filtered =
