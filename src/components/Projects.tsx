@@ -48,9 +48,9 @@ type Project = {
 }
 
 function SliderCard({ project, index }: { project: Project; index: number }) {
-  const wrapRef = useRef(null)
-  const beforeRef = useRef(null)
-  const dividerRef = useRef(null)
+  const wrapRef = useRef<HTMLDivElement | null>(null)
+  const beforeRef = useRef<HTMLDivElement | null>(null)
+  const dividerRef = useRef<HTMLDivElement | null>(null)
   const dragging = useRef(false)
 
   const setPos = (clientX: number) => {
@@ -58,6 +58,7 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
 
     const rect = wrapRef.current.getBoundingClientRect()
     const pct = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100))
+
     beforeRef.current.style.clipPath = `inset(0 ${100 - pct}% 0 0)`
     dividerRef.current.style.left = `${pct}%`
   }
