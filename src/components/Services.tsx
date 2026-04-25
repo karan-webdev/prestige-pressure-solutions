@@ -108,7 +108,7 @@ export default function Services() {
             fontSize: '15px',
             lineHeight: 1.6
           }}>
-            From pressure washing to delicate restoration work — we handle every surface with precision and care.
+            From pressure washing to delicate restoration work. We handle every surface with precision and care.
           </p>
         </div>
 
