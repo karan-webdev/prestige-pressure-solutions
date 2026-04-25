@@ -153,7 +153,6 @@ export default function Testimonials() {
                 lineHeight: 1.65,
                 color: 'rgba(255,255,255,0.85)',
                 marginBottom: '2.5rem',
-                fontStyle: 'italic',
                 fontWeight: 300,
               }}>
                 "{t.text}"
