@@ -82,10 +82,8 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* CTA (DESKTOP ONLY) + MENU BUTTON */}
+        {/* CTA + MENU */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-
-          {/* CTA - hidden on mobile */}
           <a
             href="tel:0473908514"
             className="cta-btn"
@@ -107,7 +105,6 @@ export default function Navbar() {
             0473 908 514
           </a>
 
-          {/* Hamburger */}
           <button
             onClick={() => setOpen(true)}
             className="menu-btn"
@@ -124,86 +121,121 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* MOBILE MENU */}
+      {/* MOBILE OVERLAY + MENU */}
       <AnimatePresence>
         {open && (
-          <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'tween', duration: 0.35 }}
-            style={{
-              position: 'fixed',
-              top: 0,
-              right: 0,
-              width: '100vw',
-              height: '100vh',
-              background: '#000',
-              zIndex: 200,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-around',
-              padding: '2rem',
-            }}
-          >
-            {/* Close */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <>
+            {/* BLUR BACKDROP */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setOpen(false)}
+              style={{
+                position: 'fixed',
+                inset: 0,
+                background: 'rgba(0,0,0,0.5)',
+                backdropFilter: 'blur(10px)',
+                zIndex: 199,
+              }}
+            />
+
+            {/* SLIDE PANEL */}
+            <motion.div
+              drag="x"
+              dragDirectionLock
+              dragConstraints={{ left: 0, right: 300 }}
+              dragElastic={0.2}
+              onDragEnd={(_, info) => {
+                if (info.offset.x > 120) setOpen(false)
+              }}
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'tween', duration: 0.35 }}
+              style={{
+                position: 'fixed',
+                top: 0,
+                right: 0,
+                width: '100vw',
+                height: '100dvh',
+                background: '#000',
+                zIndex: 200,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                padding: '2rem',
+              }}
+            >
+              {/* CLOSE (same position as hamburger) */}
               <button
                 onClick={() => setOpen(false)}
                 style={{
+                  position: 'fixed',
+                  top: '18px',
+                  right: '2rem',
                   background: 'none',
                   border: 'none',
                   color: 'white',
                   cursor: 'pointer',
+                  zIndex: 300,
                 }}
               >
-                <X size={28} />
+                <X size={26} />
               </button>
-            </div>
 
-            {/* Links */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              {links.map(link => (
-                <a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
-                  onClick={() => setOpen(false)}
-                  style={{
-                    fontFamily: 'var(--font-condensed)',
-                    fontWeight: 700,
-                    fontSize: '22px',
-                    letterSpacing: '0.12em',
-                    color: 'white',
-                    textDecoration: 'none',
-                  }}
-                >
-                  {link.toUpperCase()}
-                </a>
-              ))}
-            </div>
+              {/* LINKS */}
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1.5rem',
+                  marginTop: '4rem',
+                }}
+              >
+                {links.map(link => (
+                  <a
+                    key={link}
+                    href={`#${link.toLowerCase()}`}
+                    onClick={() => setOpen(false)}
+                    style={{
+                      fontFamily: 'var(--font-condensed)',
+                      fontWeight: 700,
+                      fontSize: '22px',
+                      letterSpacing: '0.12em',
+                      color: 'white',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    {link.toUpperCase()}
+                  </a>
+                ))}
+              </div>
 
-            {/* Mobile CTA (ONLY HERE) */}
-            <a
-              href="tel:0473908514"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '10px',
-                background: 'var(--accent)',
-                color: 'white',
-                padding: '14px 20px',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontFamily: 'var(--font-condensed)',
-                fontWeight: 600,
-                fontSize: '16px',
-              }}
-            >
-              <Phone size={16} />
-              0473 908 514
-            </a>
-          </motion.div>
+              {/* CTA */}
+              <a
+                href="tel:0473908514"
+                style={{
+                  marginTop: 'auto',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  background: 'var(--accent)',
+                  color: 'white',
+                  padding: '14px 20px',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  fontFamily: 'var(--font-condensed)',
+                  fontWeight: 600,
+                  fontSize: '16px',
+                }}
+              >
+                <Phone size={16} />
+                0473 908 514
+              </a>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
@@ -212,8 +244,6 @@ export default function Navbar() {
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
           .menu-btn { display: block !important; }
-
-          /* THIS is the key fix */
           .cta-btn { display: none !important; }
         }
       `}</style>
