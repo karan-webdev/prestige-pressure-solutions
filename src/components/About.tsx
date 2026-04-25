@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import about from '../assets/about.jpeg' 
 
 export default function About() {
   return (
@@ -38,30 +39,12 @@ export default function About() {
                 borderRadius: '18px',
                 overflow: 'hidden',
                 backgroundImage:
-                  "url('https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=1200&q=80')",
+                  `url(${about})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}
             />
-
-            {/* subtle trust badge */}
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '18px',
-                left: '18px',
-                background: 'rgba(0,0,0,0.75)',
-                color: 'white',
-                padding: '10px 14px',
-                borderRadius: '10px',
-                fontSize: '12px',
-                fontFamily: 'var(--font-condensed)',
-                letterSpacing: '0.08em',
-              }}
-            >
-              PERTH-BASED TEAM
-            </div>
-          </motion.div>
+            </motion.div>
 
           {/* RIGHT CONTENT */}
           <motion.div
@@ -120,7 +103,7 @@ export default function About() {
                 fontWeight: 300,
               }}
             >
-              Every job is approached with care, proper technique, and attention to detail — from driveways and roofs to full exterior washes. The goal is simple: leave every surface noticeably better than we found it.
+              Every job is approached with care, proper technique, and attention to detail. From driveways and roofs to full exterior washes. The goal is simple: leave every surface noticeably better than we found it.
             </p>
 
             {/* TRUST POINTS */}

@@ -6,11 +6,11 @@ const segments = [
     id: 'residential',
     label: 'RESIDENTIAL',
     headline: 'HOMEOWNERS',
-    desc: 'We bring professional-grade equipment and techniques right to your doorstep — restoring your driveways, roofs, gutters, windows and more to showroom condition.',
+    desc: 'We bring professional-grade equipment and techniques right to your doorstep, restoring your driveways, roofs, gutters, windows and more to showroom condition.',
     features: [
       'Driveway & patio pressure washing',
       'Roof cleaning & soft washing',
-      'Window cleaning — inside & out',
+      'Window cleaning (inside & out)',
       'Gutter clearing & flush',
       'Solar panel cleaning',
       'Limestone restoration & sealing',
@@ -125,14 +125,7 @@ export default function WhoWeServe() {
         </motion.div>
 
         {/* TAB STRIP */}
-        <div
-          style={{
-            display: 'flex',
-            borderBottom: '1px solid rgba(255,255,255,0.08)',
-            marginBottom: '3rem',
-            overflowX: 'auto',
-          }}
-        >
+        <div className="tabs-scroll">
           {segments.map((s, i) => (
             <button
               key={s.id}
@@ -173,7 +166,6 @@ export default function WhoWeServe() {
             alignItems: 'center',
           }}
         >
-          {/* IMAGE */}
           <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden' }}>
             <div
               style={{
@@ -193,7 +185,6 @@ export default function WhoWeServe() {
             />
           </div>
 
-          {/* TEXT */}
           <div>
             <h3
               style={{
@@ -281,19 +272,31 @@ export default function WhoWeServe() {
         </motion.div>
       </div>
 
-      {/* ONLY MOBILE LAYOUT FIX */}
+      {/* ONLY MOBILE SCROLLBAR FIX */}
       <style>{`
+        .tabs-scroll {
+          display: flex;
+          border-bottom: 1px solid rgba(255,255,255,0.08);
+          margin-bottom: 3rem;
+          overflow-x: auto;
+
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+
+        .tabs-scroll::-webkit-scrollbar {
+          display: none;
+        }
+
         @media (max-width: 768px) {
           .who-grid {
             grid-template-columns: 1fr !important;
           }
 
-          /* text first */
           .who-grid > div:nth-child(2) {
             order: 1;
           }
 
-          /* image last */
           .who-grid > div:nth-child(1) {
             order: 2;
           }

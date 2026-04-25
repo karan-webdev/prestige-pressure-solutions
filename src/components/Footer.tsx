@@ -1,14 +1,16 @@
-import { Phone, Mail, Globe, MapPin, Share2, MessageCircle } from 'lucide-react'
+import { Phone, Mail, Globe, MapPin } from 'lucide-react'
+import { FaInstagram, FaFacebookF } from 'react-icons/fa'
 import logo from '../assets/logo.png'
 
 const services = [
-  'House Washing',
-  'Roof Cleaning',
+  'Pressure Washing',
+  'Soft Washing',
+  'Window Cleaning',
   'Gutter Cleaning',
-  'Driveway Cleaning',
-  'Sidewalk Cleaning',
-  'Fence Cleaning',
-  'Window Cleaning'
+  'Roof Cleaning',
+  'Solar Panel Cleaning',
+  'Rust & Stain Removal',
+  'Limestone Restoration',
 ]
 
 export default function Footer() {
@@ -49,18 +51,20 @@ export default function Footer() {
                 marginBottom: '1.5rem',
               }}
             >
-              Perth's mobile pressure washing specialists. We come to you — no mess, no fuss, just spotless results.
+              Perth's mobile pressure washing specialists. We come to you. No mess, no fuss, just spotless results.
             </p>
 
             {/* Social */}
             <div style={{ display: 'flex', gap: '10px' }}>
               {[
-                { icon: Share2, label: 'Facebook' },
-                { icon: MessageCircle, label: 'Instagram' },
-              ].map(({ icon: Icon, label }) => (
+                { icon: FaFacebookF, label: 'Facebook', href: 'https://www.facebook.com/p/Prestige-Pressure-Solutions-61583877321797/' },
+                { icon: FaInstagram, label: 'Instagram', href: 'https://www.instagram.com/prestigepressuresolutions/' },
+              ].map(({ icon: Icon, label, href }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   style={{
                     width: '38px',
@@ -152,7 +156,7 @@ export default function Footer() {
                 { icon: Phone, text: '0473 908 514', href: 'tel:0473908514' },
                 { icon: Mail, text: 'prestigepressuresolutionswa@gmail.com', href: 'mailto:prestigepressuresolutionswa@gmail.com' },
                 { icon: Globe, text: 'prestigepressuresolutions.com', href: 'https://prestigepressuresolutions.com' },
-                { icon: MapPin, text: 'Perth Metro, WA', href: '#' },
+                { icon: MapPin, text: 'Perth, WA', href: '#' },
               ].map(({ icon: Icon, text, href }) => (
                 <a
                   key={text}
@@ -200,20 +204,10 @@ export default function Footer() {
               color: 'rgba(255,255,255,0.25)',
             }}
           >
-            © {new Date().getFullYear()} All rights reserved.
+            © {new Date().getFullYear()} Prestige Pressure Solutions. All rights reserved.
           </div>
 
-          <div
-            style={{
-              fontFamily: 'var(--font-condensed)',
-              fontWeight: 600,
-              fontSize: '12px',
-              letterSpacing: '0.1em',
-              color: 'rgba(255,255,255,0.2)',
-            }}
-          >
-            ABN: AVAILABLE ON REQUEST · PERTH, WA
-          </div>
+          
         </div>
       </div>
     </footer>

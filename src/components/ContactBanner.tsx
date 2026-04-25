@@ -4,6 +4,7 @@ import { Phone, Mail, User, MapPin, MessageSquare } from 'lucide-react'
 export default function ContactBanner() {
   return (
     <section
+      id="contact"
       style={{
         position: 'relative',
         overflow: 'hidden',
@@ -110,7 +111,7 @@ export default function ContactBanner() {
                 maxWidth: '420px',
               }}
             >
-              Fill out the form and we’ll get back to you fast. No spam — just a real quote from a local business.
+              Fill out the form and we’ll get back to you fast. No spam, just a real quote from a local business.
             </p>
 
             {/* CONTACT INFO */}

@@ -143,7 +143,7 @@ export default function Testimonials() {
 
               <div style={{ display: 'flex', gap: '4px', marginBottom: '1.5rem' }}>
                 {[...Array(t.rating)].map((_, i) => (
-                  <Star key={i} size={18} fill="#0088f2" color="#0088f2" />
+                  <Star key={i} size={18} fill="#FFD700" color="#FFD700" />
                 ))}
               </div>
 
@@ -302,6 +302,7 @@ export default function Testimonials() {
               justifyContent: 'center',
               textAlign: 'center',
               lineHeight: 1,
+              gap: '4px',
               minWidth: 120,
             }}>
               <div style={{

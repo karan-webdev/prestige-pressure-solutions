@@ -6,57 +6,57 @@ const services = [
     id: 1,
     category: 'Cleaning',
     title: 'PRESSURE WASHING',
-    desc: 'Driveways, patios, limestone, concrete, aggregate and more — blasted clean.',
-    img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+    desc: 'Driveways, patios, limestone, concrete, aggregate and more. Blasted clean.',
+    img: 'https://premierprowashandseal.com/wp-content/uploads/2023/04/iStock-1012456142-scaled.jpg',
   },
   {
     id: 2,
     category: 'Cleaning',
     title: 'SOFT WASHING',
     desc: 'Low-pressure chemical treatment for roofs, walls and delicate surfaces.',
-    img: 'https://images.unsplash.com/photo-1635274605638-d44babc08a4f?w=800&q=80',
+    img: 'https://www.priorityonelawncare.com/wp-content/uploads/2020/01/landscaper-pressure-wash-final-scaled.jpg',
   },
   {
     id: 3,
     category: 'Cleaning',
     title: 'WINDOW CLEANING',
-    desc: 'Purified water, streak-free results — inside and out.',
-    img: 'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=800&q=80',
+    desc: 'Purified water, streak-free results. Inside and out.',
+    img: 'https://storables.com/wp-content/uploads/2021/12/Featured-Photo-for-Window-Cleaners-scaled.jpeg',
   },
   {
     id: 4,
     category: 'Cleaning',
     title: 'GUTTER CLEANING',
     desc: 'Flush and clear blockages to prevent overflow and water damage.',
-    img: 'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&q=80',
+    img: 'https://crystalclear-window-cleaning.com/wp-content/uploads/2023/10/Gutter-Cleaning-Portland-OR.jpg',
   },
   {
     id: 5,
     category: 'Restoration',
     title: 'ROOF CLEANING',
-    desc: 'Pressure or soft wash depending on condition — moss, lichen and streaks gone.',
-    img: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80',
+    desc: 'Pressure or soft wash depending on condition. Moss, lichen and streaks gone.',
+    img: 'https://ccwindowclean.com/wp-content/uploads/2024/06/1seo-cc-roof-cleaning-1-scaled.webp',
   },
   {
     id: 6,
     category: 'Cleaning',
     title: 'SOLAR PANEL CLEANING',
     desc: 'Restore efficiency with safe, residue-free panel cleaning.',
-    img: 'https://images.unsplash.com/photo-1611365892117-00ac5ef43c90?w=800&q=80',
+    img: 'https://images8.alphacoders.com/550/thumb-1920-550542.jpg',
   },
   {
     id: 7,
     category: 'Specialist',
     title: 'RUST STAIN REMOVAL',
     desc: 'Targeted treatment removes stubborn rust staining from any surface.',
-    img: 'https://images.unsplash.com/photo-1564419320461-6870880221ad?w=800&q=80',
+    img: 'https://static.vecteezy.com/system/resources/previews/038/820/189/non_2x/ai-generated-workers-using-pressure-washer-to-clean-driveways-for-professional-cleaning-service-free-photo.jpeg',
   },
   {
     id: 8,
     category: 'Restoration',
     title: 'LIMESTONE RESTORATION',
     desc: 'Specialist cleaning and restoration for limestone walls, paths and steps.',
-    img: 'https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?w=800&q=80',
+    img: 'https://images.pexels.com/photos/34439738/pexels-photo-34439738.jpeg?cs=srgb&dl=pexels-udatommo-34439738.jpg&fm=jpg',
   },
 ]
 
@@ -222,6 +222,14 @@ export default function Services() {
           margin: 0 auto 2.5rem;
           justify-content: center;
           overflow-x: auto;
+
+          /* hide scrollbar */
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none; /* IE/Edge */
+}
+
+        .tabs::-webkit-scrollbar {
+          display: none; /* Chrome/Safari */
         }
 
         .tab {

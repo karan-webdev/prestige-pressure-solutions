@@ -5,27 +5,27 @@ import { Plus, Minus } from 'lucide-react'
 const faqs = [
   {
     q: 'What areas in Perth do you service?',
-    a: 'We service all Perth metro areas including Rockingham, Mandurah, Kwinana, Baldivis, Bibra Lake, Cockburn, Fremantle and surrounds. Not sure? Call us and we’ll confirm instantly.',
+    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat et dolore magna aliqua.',
   },
   {
     q: 'How much does pressure washing cost?',
-    a: 'Driveways start from ~$150 depending on size and condition. Every job gets a free upfront quote.',
+    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pretium sapien vel lectus varius, sed facilisis nunc bibendum. Donec sit amet velit at augue gravida interdum. Nulla facilisi, sed vulputate arcu.',
   },
   {
     q: 'Is pressure washing safe for surfaces?',
-    a: 'Yes. We adjust pressure for each surface — soft wash for roofs and paint, high pressure for concrete and brick.',
+    a: 'Lorem ipsum dolor sit amet. Integer varius sapien vel lectus, sed facilisis nunc bibendum. Donec sit amet velit at augue gravida interdum.',
   },
   {
     q: 'Do I need to be home?',
-    a: 'No. As long as we have access and water, we can complete the job and send before/after photos.',
+    a: 'Lorem ipsum dolor sit amet. Integer varius sapien, sed facilisis nunc bibendum. Donec sit amet velit at augue gravida interdum.',
   },
   {
     q: 'How long does a job take?',
-    a: 'Driveways: 1–2 hours. Full house wash: 2–4 hours depending on size.',
+    a: 'Lorem ipsum: 1–2 horas. Lorem ipsum dolor sit amet: 2–4 horas dependum magnitudo.',
   },
   {
     q: 'How often should I clean my property?',
-    a: 'Once a year is ideal. Twice yearly for coastal or high-mould areas.',
+    a: 'Lorem ipsum dolor sit amet. Semel in anno idealis. Bis annuum pro coastal vel magna areas.',
   },
 ]
 
