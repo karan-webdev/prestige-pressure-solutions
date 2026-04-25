@@ -114,6 +114,12 @@ export default function Navbar() {
               cursor: 'pointer',
               color: 'white',
               display: 'none',
+
+              // ✅ FIX (only addition)
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 0,
+              lineHeight: 0,
             }}
           >
             <Menu size={26} />
@@ -125,7 +131,6 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <>
-            {/* BLUR BACKDROP */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -140,7 +145,6 @@ export default function Navbar() {
               }}
             />
 
-            {/* SLIDE PANEL */}
             <motion.div
               drag="x"
               dragDirectionLock
@@ -167,7 +171,6 @@ export default function Navbar() {
                 padding: '2rem',
               }}
             >
-              {/* CLOSE (same position as hamburger) */}
               <button
                 onClick={() => setOpen(false)}
                 style={{
@@ -184,7 +187,6 @@ export default function Navbar() {
                 <X size={26} />
               </button>
 
-              {/* LINKS */}
               <div
                 style={{
                   display: 'flex',
@@ -212,11 +214,11 @@ export default function Navbar() {
                 ))}
               </div>
 
-              {/* CTA */}
               <a
                 href="tel:0473908514"
                 style={{
                   marginTop: 'auto',
+                  marginBottom: '4rem',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -239,11 +241,10 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* RESPONSIVE RULES */}
       <style>{`
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
-          .menu-btn { display: block !important; }
+          .menu-btn { display: flex !important; }
           .cta-btn { display: none !important; }
         }
       `}</style>
