@@ -141,11 +141,32 @@ export default function Testimonials() {
               }}
             >
 
-              <div style={{ display: 'flex', gap: '4px', marginBottom: '1.5rem' }}>
-                {[...Array(t.rating)].map((_, i) => (
-                  <Star key={i} size={18} fill="#FFD700" color="#FFD700" />
-                ))}
-              </div>
+              <div
+  style={{
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '1.5rem',
+  }}
+>
+  <div
+    className="testimonial-divider"
+    style={{
+      width: '25%',
+      height: '2px',
+      background: 'var(--accent)',
+      opacity: 1,
+    }}
+  />
+</div>
+
+<style>{`
+  @media (max-width: 768px) {
+    .testimonial-divider {
+      width: 50% !important;
+    }
+  }
+`}</style>
 
               <p style={{
                 fontFamily: 'var(--font-body)',
