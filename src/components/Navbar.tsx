@@ -142,7 +142,7 @@ export default function Navbar() {
               zIndex: 200,
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'space-between',
+              justifyContent: 'space-around',
               padding: '2rem',
             }}
           >
