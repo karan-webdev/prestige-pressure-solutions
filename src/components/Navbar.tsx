@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Phone } from 'lucide-react'
-import logo from '../assets/logo.png' // adjust path if needed
+import logo from '../assets/logo.png'
 
-const links = ['Services', 'Testimonials','Projects', 'FAQ']
+const links = ['Services', 'Testimonials', 'Projects', 'FAQ']
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -39,17 +39,14 @@ export default function Navbar() {
           height: '72px',
         }}
       >
-        {/* ✅ LOGO */}
+        {/* LOGO */}
         <a
           href="#"
           style={{
             display: 'flex',
             alignItems: 'center',
             textDecoration: 'none',
-            transition: 'opacity 0.2s',
           }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
         >
           <img
             src={logo}
@@ -64,8 +61,8 @@ export default function Navbar() {
 
         {/* Desktop Links */}
         <div
-          style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}
           className="desktop-nav"
+          style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}
         >
           {links.map(link => (
             <a
@@ -78,27 +75,20 @@ export default function Navbar() {
                 letterSpacing: '0.1em',
                 color: 'rgba(255,255,255,0.75)',
                 textDecoration: 'none',
-                transition: 'color 0.2s',
               }}
-              onMouseEnter={e =>
-                (e.currentTarget.style.color = '#0088f2')
-              }
-              onMouseLeave={e =>
-                (e.currentTarget.style.color =
-                  'rgba(255,255,255,0.75)')
-              }
             >
               {link.toUpperCase()}
             </a>
           ))}
         </div>
 
-        {/* CTA + Mobile Menu */}
-        <div
-          style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
-        >
+        {/* CTA (DESKTOP ONLY) + MENU BUTTON */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+
+          {/* CTA - hidden on mobile */}
           <a
             href="tel:0473908514"
+            className="cta-btn"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -111,62 +101,68 @@ export default function Navbar() {
               fontFamily: 'var(--font-condensed)',
               fontWeight: 600,
               fontSize: '14px',
-              letterSpacing: '0.05em',
-              transition: 'background 0.2s, transform 0.15s',
-            }}
-            onMouseEnter={e => {
-              const el = e.currentTarget as HTMLElement
-              el.style.background = '#0066c0'
-              el.style.transform = 'translateY(-1px)'
-            }}
-            onMouseLeave={e => {
-              const el = e.currentTarget as HTMLElement
-              el.style.background = 'var(--accent)'
-              el.style.transform = 'translateY(0)'
             }}
           >
             <Phone size={14} />
             0473 908 514
           </a>
 
+          {/* Hamburger */}
           <button
-            onClick={() => setOpen(!open)}
+            onClick={() => setOpen(true)}
+            className="menu-btn"
             style={{
               background: 'none',
               border: 'none',
               cursor: 'pointer',
               color: 'white',
-              padding: '4px',
               display: 'none',
             }}
-            className="menu-btn"
           >
-            {open ? <X size={24} /> : <Menu size={24} />}
+            <Menu size={26} />
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* MOBILE MENU */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'tween', duration: 0.35 }}
             style={{
-              overflow: 'hidden',
-              background: '#111',
-              borderTop: '1px solid rgba(0,136,242,0.15)',
+              position: 'fixed',
+              top: 0,
+              right: 0,
+              width: '100vw',
+              height: '100vh',
+              background: '#000',
+              zIndex: 200,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              padding: '2rem',
             }}
           >
-            <div
-              style={{
-                padding: '1.5rem 2rem',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1.25rem',
-              }}
-            >
+            {/* Close */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => setOpen(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'white',
+                  cursor: 'pointer',
+                }}
+              >
+                <X size={28} />
+              </button>
+            </div>
+
+            {/* Links */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               {links.map(link => (
                 <a
                   key={link}
@@ -175,7 +171,7 @@ export default function Navbar() {
                   style={{
                     fontFamily: 'var(--font-condensed)',
                     fontWeight: 700,
-                    fontSize: '20px',
+                    fontSize: '22px',
                     letterSpacing: '0.12em',
                     color: 'white',
                     textDecoration: 'none',
@@ -185,14 +181,40 @@ export default function Navbar() {
                 </a>
               ))}
             </div>
+
+            {/* Mobile CTA (ONLY HERE) */}
+            <a
+              href="tel:0473908514"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                background: 'var(--accent)',
+                color: 'white',
+                padding: '14px 20px',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontFamily: 'var(--font-condensed)',
+                fontWeight: 600,
+                fontSize: '16px',
+              }}
+            >
+              <Phone size={16} />
+              0473 908 514
+            </a>
           </motion.div>
         )}
       </AnimatePresence>
 
+      {/* RESPONSIVE RULES */}
       <style>{`
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
-          .menu-btn { display: flex !important; }
+          .menu-btn { display: block !important; }
+
+          /* THIS is the key fix */
+          .cta-btn { display: none !important; }
         }
       `}</style>
     </nav>
