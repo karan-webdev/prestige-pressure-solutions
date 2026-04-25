@@ -71,6 +71,23 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
     dividerRef.current.style.left = `${pct}%`
   }
 
+  // 🔥 AUTO SLIDE PREVIEW
+  useEffect(() => {
+    if (!wrapRef.current) return
+
+    let pct = 20
+    const rect = wrapRef.current.getBoundingClientRect()
+
+    const interval = setInterval(() => {
+      pct += 2
+      const x = rect.left + (pct / 100) * rect.width
+      setPos(x)
+      if (pct >= 80) clearInterval(interval)
+    }, 10)
+
+    return () => clearInterval(interval)
+  }, [])
+
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => dragging.current && setPos(e.clientX)
     const onMouseUp = () => (dragging.current = false)
@@ -97,10 +114,8 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       style={{
-        background: '#fff',
         borderRadius: '16px',
         overflow: 'hidden',
-        boxShadow: '0 2px 20px rgba(0,0,0,0.07)',
       }}
     >
       <div
@@ -121,6 +136,7 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           userSelect: 'none',
         }}
       >
+        {/* AFTER IMAGE */}
         <div
           style={{
             position: 'absolute',
@@ -131,6 +147,7 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           }}
         />
 
+        {/* BEFORE IMAGE */}
         <div
           ref={beforeRef}
           style={{
@@ -143,6 +160,17 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           }}
         />
 
+        {/* GRADIENT OVERLAY */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to top, rgba(0,0,0,0.5), transparent)',
+            zIndex: 1,
+          }}
+        />
+
+        {/* DIVIDER */}
         <div
           ref={dividerRef}
           style={{
@@ -163,59 +191,94 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: '40px',
-              height: '40px',
+              width: '48px',
+              height: '48px',
               borderRadius: '50%',
-              background: 'white',
-              border: '2px solid var(--accent)',
-              color: 'var(--accent)',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.25)',
+              background: '#0087F2',
+              color: '#fff',
+              fontWeight: 900,
+              fontSize: '18px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
             }}
           >
-            ⟷
+            ⇆
           </div>
         </div>
 
-        <div style={{ position: 'absolute', bottom: 12, left: 12, background: 'rgba(0,0,0,0.6)', color: 'white', padding: '4px 10px', fontSize: '11px', fontWeight: 800 }}>
+        {/* LABELS */}
+        <div style={{
+          position: 'absolute',
+          top: 12,
+          left: 12,
+          background: '#000',
+          color: '#fff',
+          padding: '6px 12px',
+          fontSize: '12px',
+          fontWeight: 900,
+          letterSpacing: '0.15em',
+          zIndex: 2
+        }}>
           BEFORE
         </div>
 
-        <div style={{ position: 'absolute', bottom: 12, right: 12, background: '#0087F2', color: 'white', padding: '4px 10px', fontSize: '11px', fontWeight: 800 }}>
+        <div style={{
+          position: 'absolute',
+          top: 12,
+          right: 12,
+          background: '#0087F2',
+          color: '#fff',
+          padding: '6px 12px',
+          fontSize: '12px',
+          fontWeight: 900,
+          letterSpacing: '0.15em',
+          zIndex: 2
+        }}>
           AFTER
         </div>
-      </div>
 
-      <div
-        style={{
-          padding: '1.1rem 1.4rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <div>
-          <h3 style={{ fontFamily: 'var(--font-condensed)', fontWeight: 800, fontSize: '16px' }}>
+        {/* TEXT OVERLAY */}
+        <div style={{
+          position: 'absolute',
+          bottom: 16,
+          left: 16,
+          zIndex: 2,
+          color: 'white'
+        }}>
+          <div style={{
+            fontWeight: 500,
+            fontSize: '18px',
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            fontFamily: 'var(--font-condensed)',
+          }}>
             {project.title}
-          </h3>
-          <div style={{ fontSize: '13px', color: '#888' }}>{project.location}</div>
+          </div>
+
+          <div style={{
+            fontSize: '12px',
+            opacity: 0.8
+          }}>
+            {project.location}
+          </div>
         </div>
 
-        <div
-          style={{
-            padding: '6px 12px',
-            borderRadius: '999px',
-            fontSize: '11px',
-            fontWeight: 800,
-            letterSpacing: '0.12em',
-            border: '1px solid rgba(0,135,242,0.35)',
-            background: 'linear-gradient(135deg, rgba(0,135,242,0.15), rgba(0,135,242,0.05))',
-            color: '#0087F2',
-          }}
-        >
-          {project.tag}
+        {/* DRAG HINT */}
+        <div style={{
+          position: 'absolute',
+          top: 12,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          fontSize: '11px',
+          color: 'white',
+          background: 'rgba(0,0,0,0.6)',
+          padding: '4px 10px',
+          borderRadius: 999,
+          zIndex: 2
+        }}>
+          DRAG
         </div>
       </div>
     </motion.div>
@@ -224,50 +287,52 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
 
 export default function Projects() {
   return (
-    <section id="projects" style={{ background: '#f2f2f0', padding: '7rem 2rem' }}>
+    <section id="projects" style={{ background: '#f2f2f0', padding: '5rem 1.5rem' }}>
       <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+        
+        {/* HEADER (UNCHANGED) */}
         <div style={{
-  fontFamily: 'var(--font-condensed)',
-  fontSize: '11px',
-  letterSpacing: '0.22em',
-  color: 'var(--accent)',
-  fontWeight: 800,
-  marginBottom: '0.75rem',
-  textTransform: 'uppercase',
-}}>
-  — OUR WORK
-</div>
+          fontFamily: 'var(--font-condensed)',
+          fontSize: '11px',
+          letterSpacing: '0.22em',
+          color: 'var(--accent)',
+          fontWeight: 800,
+          marginBottom: '0.75rem',
+          textTransform: 'uppercase',
+        }}>
+          — OUR WORK
+        </div>
+
         <div style={{ marginBottom: '3.5rem' }}>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(44px, 6vw, 72px)',
-              lineHeight: 0.92,
-              fontWeight: 900,
-            }}
-          >
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(44px, 6vw, 72px)',
+            lineHeight: 0.92,
+            fontWeight: 900,
+          }}>
             BEFORE <br />
             <span style={{ color: '#0087F2' }}>& AFTER</span>
           </h2>
 
           <p style={{
-  maxWidth: '560px',
-  margin: '1.2rem 0 0',
-  color: '#666',
-  fontSize: '15px',
-  lineHeight: 1.6,
-  textAlign: 'left'
-}}>
-  Real transformations from recent jobs across WA showcasing the quality, detail, and finish we deliver on every project.
-</p>
+            maxWidth: '560px',
+            margin: '1.2rem 0 0',
+            color: '#666',
+            fontSize: '15px',
+            lineHeight: 1.6,
+            textAlign: 'left'
+          }}>
+            Real transformations from recent jobs across WA showcasing the quality, detail, and finish we deliver on every project.
+          </p>
         </div>
 
+        {/* GRID */}
         <div
           className="projects-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: 20,
+            gap: 14,
           }}
         >
           {projects.map((p, i) => (
@@ -275,6 +340,7 @@ export default function Projects() {
           ))}
         </div>
 
+        {/* STATS (UNCHANGED) */}
         <motion.div
           className="stats-grid"
           initial={{ opacity: 0, y: 20 }}
@@ -291,7 +357,6 @@ export default function Projects() {
           {stats.map((s, i) => (
             <div key={s.label} className="stat-item" style={{ textAlign: 'center', position: 'relative' }}>
               {i !== stats.length - 1 && <div className="stat-divider" />}
-
               <div className="stat-num">{s.num}</div>
               <div className="stat-label">{s.label}</div>
             </div>
@@ -299,6 +364,7 @@ export default function Projects() {
         </motion.div>
       </div>
 
+      {/* STYLES (UNCHANGED) */}
       <style>{`
         .stat-divider {
           position: absolute;
@@ -331,7 +397,6 @@ export default function Projects() {
             row-gap: 3rem;
           }
 
-          /* FIX SPACING ISSUE */
           .stat-item {
             padding: 0.5rem 0;
           }
