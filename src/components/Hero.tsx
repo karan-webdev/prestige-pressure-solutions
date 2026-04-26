@@ -15,7 +15,10 @@ export default function Hero() {
       }}
     >
       {/* Background image */}
-      <div
+      <motion.div
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 1.2, ease: 'easeOut' }}
         style={{
           position: 'absolute',
           inset: 0,
@@ -24,9 +27,20 @@ export default function Hero() {
           backgroundPosition: 'center',
           zIndex: 0,
         }}
+        className="hero-bg"
       />
 
-      {/* MAIN TINT (strong cinematic gradient) */}
+      <style>
+        {`
+          @media (max-width: 768px) {
+            .hero-bg {
+              background-position: 80% center !important;
+            }
+          }
+        `}
+      </style>
+
+      {/* MAIN TINT */}
       <div
         style={{
           position: 'absolute',
@@ -45,7 +59,7 @@ export default function Hero() {
         }}
       />
 
-      {/* 🔥 NAVBAR BLEED LAYER (important second layer) */}
+      {/* NAVBAR BLEED */}
       <div
         style={{
           position: 'absolute',
@@ -77,8 +91,9 @@ export default function Hero() {
 
           {/* BADGE */}
           <motion.div
-            initial={{ opacity: 0, x: -10 }}
+            initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -120,8 +135,9 @@ export default function Hero() {
 
           {/* HEADLINE */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
             style={{
               fontFamily: 'var(--font-display)',
               fontSize: 'clamp(56px, 8vw, 110px)',
@@ -140,8 +156,9 @@ export default function Hero() {
 
           {/* SUBTEXT */}
           <motion.p
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
             style={{
               fontFamily: 'var(--font-body)',
               fontSize: '16px',
@@ -155,16 +172,23 @@ export default function Hero() {
 
           {/* CTA */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
             style={{
               display: 'flex',
               gap: '12px',
               flexWrap: 'wrap',
             }}
           >
-            <a
+            {/* PRIMARY BUTTON */}
+            <motion.a
               href="tel:0473908514"
+              whileHover={{ 
+                backgroundColor: '#006edc'
+              }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.2 }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -181,10 +205,16 @@ export default function Hero() {
             >
               <Phone size={16} />
               CALL NOW
-            </a>
+            </motion.a>
 
-            <a
+            {/* OUTLINE BUTTON */}
+            <motion.a
               href="#services"
+              whileHover={{
+                borderColor: '#ffffff'
+              }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.2 }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -199,7 +229,7 @@ export default function Hero() {
               }}
             >
               SERVICES <ArrowRight size={16} />
-            </a>
+            </motion.a>
           </motion.div>
 
         </div>

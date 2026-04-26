@@ -61,29 +61,32 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
   const dividerRef = useRef<HTMLDivElement | null>(null)
   const dragging = useRef(false)
 
-  const setPos = (clientX: number) => {
-    if (!wrapRef.current || !beforeRef.current || !dividerRef.current) return
+  // ✅ CLAMPED % (35–65)
+  const setPct = (pct: number) => {
+    if (!beforeRef.current || !dividerRef.current) return
 
-    const rect = wrapRef.current.getBoundingClientRect()
-    const pct = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100))
-
-    beforeRef.current.style.clipPath = `inset(0 ${100 - pct}% 0 0)`
-    dividerRef.current.style.left = `${pct}%`
+    const clamped = Math.max(0, Math.min(100, pct))
+    beforeRef.current.style.clipPath = `inset(0 ${100 - clamped}% 0 0)`
+    dividerRef.current.style.left = `${clamped}%`
   }
 
-  // 🔥 AUTO SLIDE PREVIEW
-  useEffect(() => {
+  const setPos = (clientX: number) => {
     if (!wrapRef.current) return
-
-    let pct = 20
     const rect = wrapRef.current.getBoundingClientRect()
+    const pct = ((clientX - rect.left) / rect.width) * 100
+    setPct(pct)
+  }
+
+  // 🔥 AUTO PREVIEW (centered range)
+  useEffect(() => {
+    let pct = 35
 
     const interval = setInterval(() => {
-      pct += 2
-      const x = rect.left + (pct / 100) * rect.width
-      setPos(x)
-      if (pct >= 80) clearInterval(interval)
-    }, 10)
+      pct += 1.2
+      setPct(pct)
+
+      if (pct >= 65) clearInterval(interval)
+    }, 12)
 
     return () => clearInterval(interval)
   }, [])
@@ -136,7 +139,7 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           userSelect: 'none',
         }}
       >
-        {/* AFTER IMAGE */}
+        {/* AFTER */}
         <div
           style={{
             position: 'absolute',
@@ -147,7 +150,7 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           }}
         />
 
-        {/* BEFORE IMAGE */}
+        {/* BEFORE */}
         <div
           ref={beforeRef}
           style={{
@@ -160,7 +163,7 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           }}
         />
 
-        {/* GRADIENT OVERLAY */}
+        {/* GRADIENT */}
         <div
           style={{
             position: 'absolute',
@@ -239,7 +242,7 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           AFTER
         </div>
 
-        {/* TEXT OVERLAY */}
+        {/* TEXT */}
         <div style={{
           position: 'absolute',
           bottom: 16,
@@ -248,8 +251,8 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           color: 'white'
         }}>
           <div style={{
-            fontWeight: 500,
-            fontSize: '18px',
+            fontSize: '14px',
+            fontWeight: 800,
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             fontFamily: 'var(--font-condensed)',
@@ -265,7 +268,7 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           </div>
         </div>
 
-        {/* DRAG HINT */}
+        {/* DRAG */}
         <div style={{
           position: 'absolute',
           top: 12,
@@ -290,7 +293,6 @@ export default function Projects() {
     <section id="projects" style={{ background: '#f2f2f0', padding: '5rem 1.5rem' }}>
       <div style={{ maxWidth: 1000, margin: '0 auto' }}>
         
-        {/* HEADER (UNCHANGED) */}
         <div style={{
           fontFamily: 'var(--font-condensed)',
           fontSize: '11px',
@@ -326,7 +328,6 @@ export default function Projects() {
           </p>
         </div>
 
-        {/* GRID */}
         <div
           className="projects-grid"
           style={{
@@ -340,7 +341,6 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* STATS (UNCHANGED) */}
         <motion.div
           className="stats-grid"
           initial={{ opacity: 0, y: 20 }}
@@ -364,7 +364,6 @@ export default function Projects() {
         </motion.div>
       </div>
 
-      {/* STYLES (UNCHANGED) */}
       <style>{`
         .stat-divider {
           position: absolute;

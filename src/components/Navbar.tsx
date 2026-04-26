@@ -75,7 +75,14 @@ export default function Navbar() {
                 letterSpacing: '0.1em',
                 color: 'rgba(255,255,255,0.75)',
                 textDecoration: 'none',
+                transition: 'color 0.2s ease',
               }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = '#ffffff')
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')
+              }
             >
               {link.toUpperCase()}
             </a>
@@ -84,9 +91,18 @@ export default function Navbar() {
 
         {/* CTA + MENU */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <a
+
+          {/* CTA BUTTON */}
+          <motion.a
             href="tel:0473908514"
             className="cta-btn"
+            whileHover={{
+              backgroundColor: '#006edc',
+            }}
+            whileTap={{
+              backgroundColor: '#005bb8',
+            }}
+            transition={{ duration: 0.2 }}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -103,7 +119,7 @@ export default function Navbar() {
           >
             <Phone size={14} />
             0473 908 514
-          </a>
+          </motion.a>
 
           <button
             onClick={() => setOpen(true)}
@@ -114,8 +130,6 @@ export default function Navbar() {
               cursor: 'pointer',
               color: 'white',
               display: 'none',
-
-              // ✅ FIX (only addition)
               alignItems: 'center',
               justifyContent: 'center',
               padding: 0,
