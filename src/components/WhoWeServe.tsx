@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import residential from '../assets/residential.jpg'
+
 
 const segments = [
   {
@@ -16,7 +18,7 @@ const segments = [
       'Limestone restoration & sealing',
     ],
     accent: '#0088f2',
-    img: 'https://st.hzcdn.com/simgs/pictures/exteriors/bowtell-units-alisco-designs-img~3c41e63d083f57f2_9-0753-1-e9c6f9f.jpg',
+    img: residential,
   },
   {
     id: 'commercial',
@@ -172,7 +174,7 @@ export default function WhoWeServe() {
                 aspectRatio: '4/3',
                 backgroundImage: `url(${seg.img})`,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundPosition: seg.id === 'residential' ? 'center 20%' : 'center',
               }}
             />
             <div

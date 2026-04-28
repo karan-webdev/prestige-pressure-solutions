@@ -255,7 +255,6 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
             fontWeight: 800,
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
-            fontFamily: 'var(--font-condensed)',
           }}>
             {project.title}
           </div>
