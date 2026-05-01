@@ -90,7 +90,7 @@ export default function About() {
                 fontWeight: 300,
               }}
             >
-              Prestige Pressure Solutions is a Perth-based exterior cleaning team focused on delivering consistent, high-quality results across residential and commercial properties.
+              At Prestige Pressure Solutions, we’re a locally owned and operated business proudly servicing the Perth region. As Perth locals ourselves, we understand the conditions, surfaces, and expectations of homes in the area — from limestone driveways to coastal wear and tear.<br/> 
             </p>
 
             <p
@@ -103,7 +103,46 @@ export default function About() {
                 fontWeight: 300,
               }}
             >
-              Every job is approached with care, proper technique, and attention to detail. From driveways and roofs to full exterior washes. The goal is simple: leave every surface noticeably better than we found it.
+              Established in 2023, our focus has always been simple: deliver high-quality results with honest service and attention to detail.
+            </p>
+
+             <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '16px',
+                lineHeight: 1.75,
+                color: '#555',
+                marginBottom: '2rem',
+                fontWeight: 300,
+              }}
+            >
+              Behind the business is Hanz and Reshad, who oversee operations and ensure every job meets our standards. Working alongside them is Tommy, a trusted team member who helps deliver consistent, reliable results on-site.
+            </p>
+
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '16px',
+                lineHeight: 1.75,
+                color: '#555',
+                marginBottom: '2rem',
+                fontWeight: 300,
+              }}
+            >
+              Growing up in Perth, we know what local homeowners are looking for — not just a quick clean, but long-lasting results that actually make a difference. That’s why we take the time to use the right methods, equipment, and treatments for each job, whether it’s pressure cleaning, window cleaning, or exterior maintenance.
+            </p>
+
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '16px',
+                lineHeight: 1.75,
+                color: '#555',
+                marginBottom: '2rem',
+                fontWeight: 300,
+              }}
+            >
+              We’re committed to providing a professional, hassle-free experience from start to finish — with clear communication, quality workmanship, and results you can trust.
             </p>
 
             {/* TRUST POINTS */}
