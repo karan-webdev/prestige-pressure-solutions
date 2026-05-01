@@ -1,5 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import before_1 from '../assets/before_1.jpg'
+import after_1 from '../assets/after_1.jpg'
 import before_2 from '../assets/before_2.webp'
 import after_2 from '../assets/after_2.webp'
 import after_3 from '../assets/after_3.png'
@@ -13,9 +15,9 @@ const projects = [
     location: 'Location, WA',
     tag: 'PAVERS',
     before:
-      'https://scontent.fmel5-1.fna.fbcdn.net/v/t39.30808-6/584845031_122099415825129244_2461757692661934440_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_ohc=_W_bcf5qkpQQ7kNvwGBlNmq&_nc_oc=AdpainYthFKoyTRcRF-F7MLy_0PI113cEBNXzThynMz_G5YK7oefVnYKJcayU1GcpHM&_nc_zt=23&_nc_ht=scontent.fmel5-1.fna&_nc_gid=VD6WfzkW7Bb24Lr2qF5NBQ&oh=00_Af3Q4M2pwS-dIT6DBBOUeVQHSrBvxrtfrMyBQHk-IGmleA&oe=69F0CEFE',
+      before_1,
     after:
-      'https://scontent.fmel5-1.fna.fbcdn.net/v/t39.30808-6/585916532_122099415819129244_3791046001047971901_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=110&ccb=1-7&_nc_sid=7b2446&_nc_ohc=zLrM3q2tsRsQ7kNvwExO3XK&_nc_oc=Adr0t92UFdGBq4ZM8HKN94wSGW94X3RKD7D0BGeD5dkXfk0a5fRsaU62PQYDdbHV7TM&_nc_zt=23&_nc_ht=scontent.fmel5-1.fna&_nc_gid=Xyggg2lp4CvtiSx9hzueRA&oh=00_Af03x0vQl6LUj84QCXXU6Go_m8tbyStCP7Xprs_dvQK7ew&oe=69F0E6A9',
+      after_1,
   },
   {
     title: 'Patio & Pathway Refurbishment',
