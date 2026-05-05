@@ -177,9 +177,10 @@ export default function FAQ() {
 
         {/* HEADER */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7 }}
           style={{ marginBottom: '4rem' }}
         >
           <div style={{
@@ -215,13 +216,20 @@ export default function FAQ() {
           </p>
         </motion.div>
 
-        {/* FAQ LIST */}
+        {/* FAQ LIST (scroll animation ONLY added) */}
         <div>
           {faqs.map((faq, i) => {
             const isOpen = open === i
 
             return (
-              <div key={i} style={{ borderBottom: '1px solid #eaeaea' }}>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.04 }}
+                style={{ borderBottom: '1px solid #eaeaea' }}
+              >
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
                   style={{
@@ -247,17 +255,22 @@ export default function FAQ() {
                     {faq.q}
                   </span>
 
-                  <div style={{
-                    width: '34px',
-                    height: '34px',
-                    borderRadius: '8px',
-                    background: isOpen ? 'var(--accent)' : '#f2f2f2',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
+                  <motion.div
+                    whileHover={{ backgroundColor: isOpen ? 'var(--accent)' : '#e6e6e6' }}
+                    whileTap={{ backgroundColor: isOpen ? '#005bb8' : '#dcdcdc' }}
+                    transition={{ duration: 0.15 }}
+                    style={{
+                      width: '34px',
+                      height: '34px',
+                      borderRadius: '8px',
+                      background: isOpen ? 'var(--accent)' : '#f2f2f2',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
                     {isOpen ? <Minus size={16} color="white" /> : <Plus size={16} color="#444" />}
-                  </div>
+                  </motion.div>
                 </button>
 
                 <AnimatePresence>
@@ -281,13 +294,17 @@ export default function FAQ() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             )
           })}
         </div>
 
-        {/* CTA (RESTORED) */}
-        <div
+        {/* CTA (RESTORED FULLY) */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7 }}
           style={{
             marginTop: '5rem',
             paddingTop: '3rem',
@@ -317,9 +334,13 @@ export default function FAQ() {
             </div>
           </div>
 
-          <a
+          <motion.a
             href="tel:0473908514"
+            whileHover={{ backgroundColor: '#006edc' }}
+            whileTap={{ backgroundColor: '#005bb8' }}
+            transition={{ duration: 0.2 }}
             style={{
+              display: 'inline-flex',
               background: 'var(--accent)',
               color: 'white',
               textDecoration: 'none',
@@ -331,8 +352,8 @@ export default function FAQ() {
             }}
           >
             CALL NOW
-          </a>
-        </div>
+          </motion.a>
+        </motion.div>
 
       </div>
     </section>

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Phone } from 'lucide-react'
+import hero from '../assets/hero.webp'
 
 export default function Hero() {
   return (
@@ -22,7 +23,7 @@ export default function Hero() {
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: `url('https://powercleansc.com/wp-content/uploads/shutterstock_2512719469.webp')`,
+          backgroundImage: `url(${hero})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           zIndex: 0,

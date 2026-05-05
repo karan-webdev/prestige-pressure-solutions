@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, type Variants, type Transition } from 'framer-motion'
 import { useState } from 'react'
 
 const services = [
@@ -62,9 +62,77 @@ const services = [
 
 const tabs = ['All Services', 'Cleaning', 'Restoration', 'Specialist']
 
+// ─── Fix 1: ease must be typed `as const` so TS sees a tuple, not number[] ───
+const EASE = [0.22, 1, 0.36, 1] as const
+
+function useIsMobile() {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia('(max-width: 500px)').matches
+}
+
+// ─── Fix 2: cast variants using Variants from framer-motion.
+//     The `custom` param pattern works fine at runtime but TS complains
+//     about the index signature. Typing the object as Variants + using
+//     `as const` for ease resolves both errors cleanly. ──────────────────────
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 36 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.18,       // was 0.12 — slower stagger
+      duration: 0.9,         // was 0.65
+      ease: EASE,
+    } satisfies Transition,
+  }),
+}
+
+const cardImageVariant: Variants = {
+  hidden: { opacity: 0, scale: 0.92, y: 24 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.11,       // was 0.07
+      duration: 0.75,        // was 0.55
+      ease: EASE,
+    } satisfies Transition,
+  }),
+}
+
+const cardTextVariant: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.11 + 0.28, // was i * 0.07 + 0.18
+      duration: 0.65,          // was 0.45
+      ease: EASE,
+    } satisfies Transition,
+  }),
+}
+
+const mobileCard: Variants = {
+  hidden: { opacity: 0, x: -28 },
+  visible: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: i * 0.12,       // was 0.08
+      duration: 0.7,         // was 0.5
+      ease: EASE,
+    } satisfies Transition,
+  }),
+}
+
 export default function Services() {
   const [expanded, setExpanded] = useState<number | null>(null)
   const [activeTab, setActiveTab] = useState('All Services')
+  const [gridSeen, setGridSeen] = useState(false)
+  const isMobile = useIsMobile()
 
   const filtered =
     activeTab === 'All Services'
@@ -77,43 +145,72 @@ export default function Services() {
 
         {/* HEADER */}
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <div style={{
-            fontFamily: 'var(--font-condensed)',
-            fontSize: '11px',
-            letterSpacing: '0.25em',
-            color: 'var(--accent)',
-            fontWeight: 800,
-            marginBottom: '1rem',
-            textTransform: 'uppercase'
-          }}>
-            — Services
-          </div>
 
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(46px, 6vw, 82px)',
-            lineHeight: 0.95,
-            fontWeight: 900,
-            textTransform: 'uppercase',
-            margin: 0
-          }}>
+          <motion.div
+            custom={0}
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px 0px' }}
+            style={{
+              fontFamily: 'var(--font-condensed)',
+              fontSize: '11px',
+              letterSpacing: '0.25em',
+              color: 'var(--accent)',
+              fontWeight: 800,
+              marginBottom: '1rem',
+              textTransform: 'uppercase',
+            }}
+          >
+            — Services
+          </motion.div>
+
+          <motion.h2
+            custom={1}
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px 0px' }}
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(46px, 6vw, 82px)',
+              lineHeight: 0.95,
+              fontWeight: 900,
+              textTransform: 'uppercase',
+              margin: 0,
+            }}
+          >
             Complete Exterior<br />
             <span style={{ color: 'var(--accent)' }}>Cleaning Solutions</span>
-          </h2>
+          </motion.h2>
 
-          <p style={{
-            maxWidth: '560px',
-            margin: '1.2rem auto 0',
-            color: '#666',
-            fontSize: '15px',
-            lineHeight: 1.6
-          }}>
+          <motion.p
+            custom={2}
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px 0px' }}
+            style={{
+              maxWidth: '560px',
+              margin: '1.2rem auto 0',
+              color: '#666',
+              fontSize: '15px',
+              lineHeight: 1.6,
+            }}
+          >
             From pressure washing to delicate restoration work. We handle every surface with precision and care.
-          </p>
+          </motion.p>
         </div>
 
-        {/* ===== TABS (UPDATED STYLE) ===== */}
-        <div className="tabs">
+        {/* TABS */}
+        <motion.div
+          custom={3}
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px 0px' }}
+          className="tabs"
+        >
           {tabs.map((tab) => (
             <button
               key={tab}
@@ -126,24 +223,28 @@ export default function Services() {
               {tab}
             </button>
           ))}
-        </div>
+        </motion.div>
 
         {/* GRID */}
         <motion.div
           layout
           transition={{ layout: { type: 'spring', stiffness: 120, damping: 18 } }}
           className="services-grid"
+          onViewportEnter={() => setGridSeen(true)}
+          viewport={{ once: true, margin: '-60px 0px' }}
         >
           <AnimatePresence mode="popLayout">
-            {filtered.map((s) => {
+            {filtered.map((s, i) => {
               const isOpen = expanded === s.id
 
               return (
                 <motion.div
                   layout
                   key={s.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  custom={i}
+                  variants={isMobile ? mobileCard : cardImageVariant}
+                  initial="hidden"
+                  animate={gridSeen ? 'visible' : 'hidden'}
                   exit={{ opacity: 0, y: 20 }}
                   className={`scard ${isOpen ? 'expanded' : ''}`}
                   onClick={() => setExpanded(isOpen ? null : s.id)}
@@ -156,7 +257,13 @@ export default function Services() {
 
                   <div className="scard-overlay" />
 
-                  <div className="scard-content">
+                  <motion.div
+                    className="scard-content"
+                    custom={i}
+                    variants={isMobile ? undefined : cardTextVariant}
+                    initial={isMobile ? undefined : 'hidden'}
+                    animate={isMobile ? undefined : gridSeen ? 'visible' : 'hidden'}
+                  >
                     <div className="scard-icon" />
                     <h3 className="scard-title">{s.title}</h3>
 
@@ -165,18 +272,19 @@ export default function Services() {
                         <motion.p
                           className="scard-desc"
                           initial={{ opacity: 0, y: 12 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } }}
+                          exit={{ opacity: 0, y: 12, transition: { duration: 0.3 } }}
                         >
                           {s.desc}
                         </motion.p>
                       )}
                     </AnimatePresence>
-                  </div>
+                  </motion.div>
 
                   <motion.div
                     className="scard-arrow"
                     animate={{ rotate: isOpen ? 45 : 0 }}
+                    transition={{ duration: 0.4, ease: EASE }}
                   >
                     ↗
                   </motion.div>
@@ -187,9 +295,19 @@ export default function Services() {
         </motion.div>
 
         {/* CTA */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
-          <a
+        <motion.div
+          custom={0}
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-40px 0px' }}
+          style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}
+        >
+          <motion.a
             href="tel:0473908514"
+            whileHover={{ backgroundColor: '#006edc' }}
+            whileTap={{ backgroundColor: '#005bb8' }}
+            transition={{ duration: 0.2 }}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -203,18 +321,17 @@ export default function Services() {
               fontWeight: 700,
               fontSize: '13px',
               letterSpacing: '0.08em',
-              textTransform: 'uppercase'
+              textTransform: 'uppercase',
             }}
           >
             Get a Free Quote →
-          </a>
-        </div>
+          </motion.a>
+        </motion.div>
 
       </div>
 
       {/* STYLES */}
       <style>{`
-        /* ===== TAB STYLE UPDATED TO MATCH WHO WE SERVE ===== */
         .tabs {
           display: flex;
           gap: 0;
@@ -222,14 +339,12 @@ export default function Services() {
           margin: 0 auto 2.5rem;
           justify-content: center;
           overflow-x: auto;
-
-          /* hide scrollbar */
-          scrollbar-width: none; /* Firefox */
-          -ms-overflow-style: none; /* IE/Edge */
-}
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
 
         .tabs::-webkit-scrollbar {
-          display: none; /* Chrome/Safari */
+          display: none;
         }
 
         .tab {
@@ -250,6 +365,10 @@ export default function Services() {
         .tab.active {
           color: #000;
           border-bottom: 2px solid var(--accent);
+        }
+
+        .tab:hover {
+          color: #000;
         }
 
         .services-grid {

@@ -23,7 +23,7 @@ export default function Navbar() {
         left: 0,
         right: 0,
         zIndex: 100,
-        background: scrolled ? 'rgba(10,10,10,0.97)' : '#000000',
+        background: scrolled ? 'rgba(10,10,10,0.75)' : '#000000',
         backdropFilter: 'blur(12px)',
         transition: 'all 0.3s ease',
       }}

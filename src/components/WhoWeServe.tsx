@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import residential from '../assets/residential.jpg'
 
+const EASE = [0.22, 1, 0.36, 1] as const
 
 const segments = [
   {
@@ -77,89 +78,75 @@ export default function WhoWeServe() {
   return (
     <section
       id="who-we-serve"
-      style={{
-        background: '#0a0a0a',
-        padding: '7rem 2rem',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
+      style={{ background: '#0a0a0a', padding: '7rem 2rem', position: 'relative', overflow: 'hidden' }}
     >
-      <div
-        style={{
-          maxWidth: '1280px',
-          margin: '0 auto',
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        {/* HEADER */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{ marginBottom: '4.5rem' }}
-        >
-          <div
+      <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+
+        {/* ── HEADER ── staggered */}
+        <div style={{ marginBottom: '4.5rem' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px 0px' }}
+            transition={{ duration: 0.7, ease: EASE }}
             style={{
               fontFamily: 'var(--font-condensed)',
-              fontWeight: 700,
-              fontSize: '12px',
-              letterSpacing: '0.2em',
-              color: 'var(--accent)',
-              marginBottom: '1rem',
+              fontWeight: 700, fontSize: '12px',
+              letterSpacing: '0.2em', color: 'var(--accent)', marginBottom: '1rem',
             }}
           >
             — WHO WE SERVE
-          </div>
+          </motion.div>
 
-          <h2
+          <motion.h2
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px 0px' }}
+            transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
             style={{
               fontFamily: 'var(--font-display)',
               fontSize: 'clamp(52px, 7vw, 90px)',
-              color: 'white',
-              lineHeight: 0.92,
-              margin: 0,
+              color: 'white', lineHeight: 0.92, margin: 0,
             }}
           >
             BUILT FOR<br />
             <span style={{ color: 'var(--accent)' }}>EVERY CLIENT.</span>
-          </h2>
-        </motion.div>
+          </motion.h2>
+        </div>
 
-        {/* TAB STRIP */}
-        <div className="tabs-scroll">
+        {/* ── TAB STRIP ── slides in from below */}
+        <motion.div
+          className="tabs-scroll"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px 0px' }}
+          transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
+        >
           {segments.map((s, i) => (
             <button
               key={s.id}
               onClick={() => setActive(i)}
               style={{
-                background: 'none',
-                border: 'none',
-                borderBottom:
-                  active === i
-                    ? '2px solid var(--accent)'
-                    : '2px solid transparent',
+                background: 'none', border: 'none',
+                borderBottom: active === i ? '2px solid var(--accent)' : '2px solid transparent',
                 padding: '14px 28px',
-                fontFamily: 'var(--font-condensed)',
-                fontWeight: 700,
-                fontSize: '13px',
-                letterSpacing: '0.1em',
+                fontFamily: 'var(--font-condensed)', fontWeight: 700,
+                fontSize: '13px', letterSpacing: '0.1em',
                 color: active === i ? 'white' : 'rgba(255,255,255,0.35)',
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
+                cursor: 'pointer', whiteSpace: 'nowrap',
               }}
             >
               {s.label}
             </button>
           ))}
-        </div>
+        </motion.div>
 
-        {/* CONTENT */}
+        {/* ── CONTENT PANEL ── image slides from left, text from right */}
         <motion.div
           key={active}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.5, ease: EASE }}
           className="who-grid"
           style={{
             display: 'grid',
@@ -168,140 +155,108 @@ export default function WhoWeServe() {
             alignItems: 'center',
           }}
         >
-          <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden' }}>
-            <div
-              style={{
-                aspectRatio: '4/3',
-                backgroundImage: `url(${seg.img})`,
-                backgroundSize: 'cover',
-                backgroundPosition: seg.id === 'residential' ? 'center 20%' : 'center',
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background:
-                  'linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.35) 45%, rgba(0,0,0,0.05) 100%)',
-              }}
-            />
-          </div>
+          {/* IMAGE — slides from left on first reveal */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-60px 0px' }}
+            transition={{ duration: 0.9, delay: 0.25, ease: EASE }}
+            style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden' }}
+          >
+            <div style={{
+              aspectRatio: '4/3',
+              backgroundImage: `url(${seg.img})`,
+              backgroundSize: 'cover',
+              backgroundPosition: seg.id === 'residential' ? 'center 20%' : 'center',
+            }} />
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.35) 45%, rgba(0,0,0,0.05) 100%)',
+            }} />
+          </motion.div>
 
-          <div>
-            <h3
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(44px, 5vw, 72px)',
-                color: 'white',
-                lineHeight: 0.9,
-                marginBottom: '1.2rem',
-              }}
-            >
+          {/* TEXT — slides from right on first reveal */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-60px 0px' }}
+            transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
+          >
+            <h3 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(44px, 5vw, 72px)',
+              color: 'white', lineHeight: 0.9, marginBottom: '1.2rem',
+            }}>
               {seg.headline}
             </h3>
 
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '15px',
-                color: 'rgba(255,255,255,0.55)',
-                lineHeight: 1.7,
-                marginBottom: '2rem',
-                maxWidth: '420px',
-              }}
-            >
+            <p style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '15px', color: 'rgba(255,255,255,0.55)',
+              lineHeight: 1.7, marginBottom: '2rem', maxWidth: '420px',
+            }}>
               {seg.desc}
             </p>
 
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '10px',
-                marginBottom: '2.5rem',
-              }}
-            >
+            {/* FEATURES — each line staggers in */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '2.5rem' }}>
               {seg.features.map((f, i) => (
-                <div
+                <motion.div
                   key={i}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                  }}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: '-40px 0px' }}
+                  transition={{ duration: 0.55, delay: 0.35 + i * 0.07, ease: EASE }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '12px' }}
                 >
-                  <div
-                    style={{
-                      width: '20px',
-                      height: '20px',
-                      borderRadius: '50%',
-                      background: 'rgba(0,136,242,0.15)',
-                      border: '1px solid rgba(0,136,242,0.3)',
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: '14px',
-                      color: 'rgba(255,255,255,0.7)',
-                    }}
-                  >
+                  <div style={{
+                    width: '20px', height: '20px', borderRadius: '50%',
+                    background: 'rgba(0,136,242,0.15)',
+                    border: '1px solid rgba(0,136,242,0.3)',
+                    flexShrink: 0,
+                  }} />
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>
                     {f}
                   </span>
-                </div>
+                </motion.div>
               ))}
             </div>
 
-            <a
+            <motion.a
               href="tel:0473908514"
+              whileHover={{ backgroundColor: '#006edc' }}
+              whileTap={{ backgroundColor: '#005bb8' }}
+              transition={{ duration: 0.2 }}
               style={{
                 display: 'inline-flex',
-                background: 'var(--accent)',
-                color: 'white',
-                padding: '14px 26px',
-                borderRadius: '8px',
-                fontFamily: 'var(--font-condensed)',
-                fontWeight: 700,
-                fontSize: '13px',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                textDecoration: 'none',
+                background: 'var(--accent)', color: 'white',
+                padding: '14px 26px', borderRadius: '8px',
+                fontFamily: 'var(--font-condensed)', fontWeight: 700,
+                fontSize: '13px', letterSpacing: '0.08em',
+                textTransform: 'uppercase', textDecoration: 'none',
               }}
             >
               GET A FREE QUOTE →
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
         </motion.div>
       </div>
 
-      {/* ONLY MOBILE SCROLLBAR FIX */}
       <style>{`
         .tabs-scroll {
           display: flex;
           border-bottom: 1px solid rgba(255,255,255,0.08);
           margin-bottom: 3rem;
           overflow-x: auto;
-
           scrollbar-width: none;
           -ms-overflow-style: none;
         }
-
-        .tabs-scroll::-webkit-scrollbar {
-          display: none;
-        }
+        .tabs-scroll::-webkit-scrollbar { display: none; }
 
         @media (max-width: 768px) {
-          .who-grid {
-            grid-template-columns: 1fr !important;
-          }
-
-          .who-grid > div:nth-child(2) {
-            order: 1;
-          }
-
-          .who-grid > div:nth-child(1) {
-            order: 2;
-          }
+          .who-grid { grid-template-columns: 1fr !important; }
+          .who-grid > div:nth-child(2) { order: 1; }
+          .who-grid > div:nth-child(1) { order: 2; }
         }
       `}</style>
     </section>

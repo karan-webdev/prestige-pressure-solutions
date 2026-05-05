@@ -31,6 +31,14 @@ body {
 
 ::selection { background: var(--accent); color: white; }
 
+* {
+  -webkit-user-select: none; 
+  -ms-user-select: none;     
+  user-select: none;
+
+  -webkit-tap-highlight-color: transparent; 
+}
+
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--dark); }
 ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
