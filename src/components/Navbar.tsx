@@ -15,17 +15,33 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // ✅ ONLY FIX: lock scroll WITHOUT moving page position
+  // ✅ FIXED SCROLL LOCK (no gap, no jump, no shift)
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden'
-    } else {
+    if (!open) {
+      const scrollY = document.body.style.top
+
       document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      document.body.style.paddingRight = ''
+
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1)
+      }
+
+      return
     }
 
-    return () => {
-      document.body.style.overflow = ''
-    }
+    const scrollY = window.scrollY
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth
+
+    document.body.style.overflow = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${scrollY}px`
+    document.body.style.width = '100%'
+    document.body.style.paddingRight = `${scrollbarWidth}px`
   }, [open])
 
   return (
@@ -53,14 +69,7 @@ export default function Navbar() {
         }}
       >
         {/* LOGO */}
-        <a
-          href="#"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            textDecoration: 'none',
-          }}
-        >
+        <a href="#" style={{ display: 'flex', alignItems: 'center' }}>
           <img
             src={logo}
             alt="Prestige Pressure Solutions"
@@ -72,10 +81,14 @@ export default function Navbar() {
           />
         </a>
 
-        {/* Desktop Links */}
+        {/* DESKTOP NAV */}
         <div
           className="desktop-nav"
-          style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '2.5rem',
+          }}
         >
           {links.map(link => (
             <a
@@ -90,11 +103,12 @@ export default function Navbar() {
                 textDecoration: 'none',
                 transition: 'color 0.2s ease',
               }}
-              onMouseEnter={(e) =>
+              onMouseEnter={e =>
                 (e.currentTarget.style.color = '#ffffff')
               }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')
+              onMouseLeave={e =>
+                (e.currentTarget.style.color =
+                  'rgba(255,255,255,0.75)')
               }
             >
               {link.toUpperCase()}
@@ -104,17 +118,12 @@ export default function Navbar() {
 
         {/* CTA + MENU */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-
-          {/* CTA BUTTON */}
+          {/* CTA */}
           <motion.a
             href="tel:0473908514"
             className="cta-btn"
-            whileHover={{
-              backgroundColor: '#006edc',
-            }}
-            whileTap={{
-              backgroundColor: '#005bb8',
-            }}
+            whileHover={{ backgroundColor: '#006edc' }}
+            whileTap={{ backgroundColor: '#005bb8' }}
             transition={{ duration: 0.2 }}
             style={{
               display: 'flex',
@@ -146,7 +155,6 @@ export default function Navbar() {
               alignItems: 'center',
               justifyContent: 'center',
               padding: 0,
-              lineHeight: 0,
             }}
           >
             <Menu size={26} />
@@ -154,10 +162,11 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* MOBILE OVERLAY + MENU */}
+      {/* MOBILE MENU */}
       <AnimatePresence>
         {open && (
           <>
+            {/* BACKDROP */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -172,14 +181,8 @@ export default function Navbar() {
               }}
             />
 
+            {/* PANEL */}
             <motion.div
-              drag="x"
-              dragDirectionLock
-              dragConstraints={{ left: 0, right: 300 }}
-              dragElastic={0.2}
-              onDragEnd={(_, info) => {
-                if (info.offset.x > 120) setOpen(false)
-              }}
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
@@ -189,8 +192,7 @@ export default function Navbar() {
                 top: 0,
                 left: 0,
                 right: 0,
-                height: '100dvh',
-                minHeight: '-webkit-fill-available',
+                height: '100vh', // ✅ FIXED (removed dvh bug)
                 background: '#000',
                 zIndex: 200,
                 display: 'flex',
@@ -199,6 +201,7 @@ export default function Navbar() {
                 padding: '2rem',
               }}
             >
+              {/* CLOSE */}
               <button
                 onClick={() => setOpen(false)}
                 style={{
@@ -215,6 +218,7 @@ export default function Navbar() {
                 <X size={26} />
               </button>
 
+              {/* LINKS */}
               <div
                 style={{
                   display: 'flex',
@@ -242,6 +246,7 @@ export default function Navbar() {
                 ))}
               </div>
 
+              {/* CTA */}
               <a
                 href="tel:0473908514"
                 style={{
@@ -269,6 +274,7 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
+      {/* MOBILE STYLES */}
       <style>{`
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }

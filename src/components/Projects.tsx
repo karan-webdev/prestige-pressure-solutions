@@ -34,7 +34,13 @@ const stats = [
   { num: '0', label: 'COMPLAINTS' },
 ]
 
-type Project = { title: string; location: string; tag: string; before: string; after: string }
+type Project = {
+  title: string
+  location: string
+  tag: string
+  before: string
+  after: string
+}
 
 function SliderCard({ project, index }: { project: Project; index: number }) {
   const wrapRef = useRef<HTMLDivElement | null>(null)
@@ -85,95 +91,198 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
     }
   }, [])
 
-  // Stagger: alternate columns — left col even, right col odd
   const isRight = index % 2 === 1
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: isRight ? 40 : -40 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: '-60px 0px' }}
-      transition={{ duration: 0.8, delay: (index % 2) * 0.12, ease: EASE }}
+      initial={{
+        opacity: 0,
+        scale: 0.96,
+        y: 18,
+        filter: 'blur(6px)',
+      }}
+      whileInView={{
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        filter: 'blur(0px)',
+      }}
+      viewport={{ once: true, margin: '-80px 0px' }}
+      transition={{
+        duration: 0.9,
+        delay: (index % 2) * 0.08,
+        ease: [0.16, 1, 0.3, 1],
+      }}
       style={{ borderRadius: '16px', overflow: 'hidden' }}
     >
       <div
         ref={wrapRef}
-        onMouseDown={(e: React.MouseEvent) => { dragging.current = true; setPos(e.clientX) }}
-        onTouchStart={(e: React.TouchEvent) => { dragging.current = true; setPos(e.touches[0].clientX) }}
+        onMouseDown={(e: React.MouseEvent) => {
+          dragging.current = true
+          setPos(e.clientX)
+        }}
+        onTouchStart={(e: React.TouchEvent) => {
+          dragging.current = true
+          setPos(e.touches[0].clientX)
+        }}
         style={{
-          position: 'relative', height: '260px', overflow: 'hidden',
-          cursor: 'ew-resize', userSelect: 'none',
+          position: 'relative',
+          height: '260px',
+          overflow: 'hidden',
+          cursor: 'ew-resize',
+          userSelect: 'none',
         }}
       >
         {/* AFTER */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: `url('${project.after}')`,
-          backgroundSize: 'cover', backgroundPosition: 'center',
-        }} />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `url('${project.after}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
 
         {/* BEFORE */}
-        <div ref={beforeRef} style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: `url('${project.before}')`,
-          backgroundSize: 'cover', backgroundPosition: 'center',
-          clipPath: 'inset(0 50% 0 0)',
-        }} />
+        <div
+          ref={beforeRef}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `url('${project.before}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            clipPath: 'inset(0 50% 0 0)',
+          }}
+        />
 
         {/* GRADIENT */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(to top, rgba(0,0,0,0.5), transparent)',
-          zIndex: 1,
-        }} />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'linear-gradient(to top, rgba(0,0,0,0.5), transparent)',
+            zIndex: 1,
+          }}
+        />
 
         {/* DIVIDER */}
-        <div ref={dividerRef} style={{
-          position: 'absolute', top: 0, bottom: 0, left: '50%',
-          width: '2px', background: 'white',
-          transform: 'translateX(-50%)', zIndex: 3, pointerEvents: 'none',
-        }}>
-          <div style={{
-            position: 'absolute', top: '50%', left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '48px', height: '48px', borderRadius: '50%',
-            background: '#0087F2', color: '#fff',
-            fontWeight: 900, fontSize: '18px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
-          }}>
+        <div
+          ref={dividerRef}
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: '50%',
+            width: '2px',
+            background: 'white',
+            transform: 'translateX(-50%)',
+            zIndex: 3,
+            pointerEvents: 'none',
+          }}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              background: '#0087F2',
+              color: '#fff',
+              fontWeight: 900,
+              fontSize: '18px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+            }}
+          >
             ⇆
           </div>
         </div>
 
         {/* LABELS */}
-        <div style={{
-          position: 'absolute', top: 12, left: 12,
-          background: '#000', color: '#fff', padding: '6px 12px',
-          fontSize: '12px', fontWeight: 900, letterSpacing: '0.15em', zIndex: 2,
-        }}>BEFORE</div>
+        <div
+          style={{
+            position: 'absolute',
+            top: 12,
+            left: 12,
+            background: '#000',
+            color: '#fff',
+            padding: '6px 12px',
+            fontSize: '12px',
+            fontWeight: 900,
+            letterSpacing: '0.15em',
+            zIndex: 2,
+          }}
+        >
+          BEFORE
+        </div>
 
-        <div style={{
-          position: 'absolute', top: 12, right: 12,
-          background: '#0087F2', color: '#fff', padding: '6px 12px',
-          fontSize: '12px', fontWeight: 900, letterSpacing: '0.15em', zIndex: 2,
-        }}>AFTER</div>
+        <div
+          style={{
+            position: 'absolute',
+            top: 12,
+            right: 12,
+            background: '#0087F2',
+            color: '#fff',
+            padding: '6px 12px',
+            fontSize: '12px',
+            fontWeight: 900,
+            letterSpacing: '0.15em',
+            zIndex: 2,
+          }}
+        >
+          AFTER
+        </div>
 
         {/* TEXT */}
-        <div style={{ position: 'absolute', bottom: 16, left: 16, zIndex: 2, color: 'white' }}>
-          <div style={{ fontSize: '14px', fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 16,
+            left: 16,
+            zIndex: 2,
+            color: 'white',
+          }}
+        >
+          <div
+            style={{
+              fontSize: '14px',
+              fontWeight: 800,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+            }}
+          >
             {project.title}
           </div>
-          <div style={{ fontSize: '12px', opacity: 0.8 }}>{project.location}</div>
+          <div style={{ fontSize: '12px', opacity: 0.8 }}>
+            {project.location}
+          </div>
         </div>
 
         {/* DRAG HINT */}
-        <div style={{
-          position: 'absolute', top: 12, left: '50%',
-          transform: 'translateX(-50%)', fontSize: '11px',
-          color: 'white', background: 'rgba(0,0,0,0.6)',
-          padding: '4px 10px', borderRadius: 999, zIndex: 2,
-        }}>DRAG</div>
+        <div
+          style={{
+            position: 'absolute',
+            top: 12,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontSize: '11px',
+            color: 'white',
+            background: 'rgba(0,0,0,0.6)',
+            padding: '4px 10px',
+            borderRadius: 999,
+            zIndex: 2,
+          }}
+        >
+          DRAG
+        </div>
       </div>
     </motion.div>
   )
@@ -181,10 +290,12 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
 
 export default function Projects() {
   return (
-    <section id="projects" style={{ background: '#f2f2f0', padding: '5rem 1.5rem' }}>
+    <section
+      id="projects"
+      style={{ background: '#f2f2f0', padding: '5rem 1.5rem' }}
+    >
       <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-
-        {/* ── HEADER ── */}
+        {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -192,9 +303,12 @@ export default function Projects() {
           transition={{ duration: 0.7, ease: EASE }}
           style={{
             fontFamily: 'var(--font-condensed)',
-            fontSize: '11px', letterSpacing: '0.22em',
-            color: 'var(--accent)', fontWeight: 800,
-            marginBottom: '0.75rem', textTransform: 'uppercase',
+            fontSize: '11px',
+            letterSpacing: '0.22em',
+            color: 'var(--accent)',
+            fontWeight: 800,
+            marginBottom: '0.75rem',
+            textTransform: 'uppercase',
           }}
         >
           — OUR WORK
@@ -209,7 +323,9 @@ export default function Projects() {
             style={{
               fontFamily: 'var(--font-display)',
               fontSize: 'clamp(44px, 6vw, 72px)',
-              lineHeight: 0.92, fontWeight: 900, margin: 0,
+              lineHeight: 0.92,
+              fontWeight: 900,
+              margin: 0,
             }}
           >
             BEFORE <br />
@@ -222,22 +338,34 @@ export default function Projects() {
             viewport={{ once: true, margin: '-80px 0px' }}
             transition={{ duration: 0.75, delay: 0.18, ease: EASE }}
             style={{
-              maxWidth: '560px', margin: '1.2rem 0 0',
-              color: '#666', fontSize: '15px', lineHeight: 1.6, textAlign: 'left',
+              maxWidth: '560px',
+              margin: '1.2rem 0 0',
+              color: '#666',
+              fontSize: '15px',
+              lineHeight: 1.6,
+              textAlign: 'left',
             }}
           >
-            Real transformations from recent jobs across WA showcasing the quality, detail, and finish we deliver on every project.
+            Real transformations from recent jobs across WA showcasing the
+            quality, detail, and finish we deliver on every project.
           </motion.p>
         </div>
 
-        {/* ── GRID ── cards slide in from alternating sides */}
-        <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
+        {/* GRID */}
+        <div
+          className="projects-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: 14,
+          }}
+        >
           {projects.map((p, i) => (
             <SliderCard key={p.title} project={p} index={i} />
           ))}
         </div>
 
-        {/* ── STATS ── each number counts up via stagger */}
+        {/* STATS */}
         <motion.div
           className="stats-grid"
           initial={{ opacity: 0, y: 30 }}
@@ -256,11 +384,14 @@ export default function Projects() {
           {stats.map((s, i) => (
             <motion.div
               key={s.label}
-              className="stat-item"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px 0px' }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: EASE }}
+              transition={{
+                duration: 0.6,
+                delay: i * 0.1,
+                ease: EASE,
+              }}
               style={{ textAlign: 'center', position: 'relative' }}
             >
               {i !== stats.length - 1 && <div className="stat-divider" />}
