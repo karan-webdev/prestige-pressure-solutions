@@ -13,10 +13,7 @@ export default function Navbar() {
   const startX = useRef(0)
   const currentX = useRef(0)
   const dragging = useRef(false)
-  const panelRef = useRef<HTMLDivElement | null>(null)
-
-  // store scroll position safely
-  const scrollYRef = useRef(0)
+  const panelRef = useRef(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -24,53 +21,28 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // ✅ FIXED SCROLL LOCK - Only this part was changed
+  // ✅ CLEAN SCROLL LOCK (FIXED)
   useEffect(() => {
     if (open) {
-      scrollYRef.current = window.scrollY
-
-      const scrollbarWidth =
-        window.innerWidth - document.documentElement.clientWidth
-
       document.body.style.overflow = 'hidden'
-      document.body.style.position = 'fixed'
-      document.body.style.top = `-${scrollYRef.current}px`
-      document.body.style.width = '100%'
-      document.body.style.paddingRight = `${scrollbarWidth}px`
-
+      document.documentElement.style.overflow = 'hidden'
       return
     }
 
-    // ===== RESTORE POSITION =====
-    const savedScrollY = scrollYRef.current
-
-    // Reset styles first
     document.body.style.overflow = ''
-    document.body.style.position = ''
-    document.body.style.top = ''
-    document.body.style.width = ''
-    document.body.style.paddingRight = ''
-
-    // Restore scroll position with instant behavior
-    requestAnimationFrame(() => {
-      window.scrollTo({
-        top: savedScrollY,
-        left: 0,
-        behavior: 'instant'
-      })
-    })
+    document.documentElement.style.overflow = ''
   }, [open])
 
   // SWIPE TO CLOSE (UNCHANGED)
   useEffect(() => {
     if (!open) return
 
-    const onTouchStart = (e: TouchEvent) => {
+    const onTouchStart = (e) => {
       dragging.current = true
       startX.current = e.touches[0].clientX
     }
 
-    const onTouchMove = (e: TouchEvent) => {
+    const onTouchMove = (e) => {
       if (!dragging.current || !panelRef.current) return
 
       currentX.current = e.touches[0].clientX
