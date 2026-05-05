@@ -15,6 +15,19 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // ✅ ONLY FIX: lock scroll WITHOUT moving page position
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [open])
+
   return (
     <nav
       style={{
@@ -174,9 +187,10 @@ export default function Navbar() {
               style={{
                 position: 'fixed',
                 top: 0,
+                left: 0,
                 right: 0,
-                width: '100vw',
                 height: '100dvh',
+                minHeight: '-webkit-fill-available',
                 background: '#000',
                 zIndex: 200,
                 display: 'flex',
