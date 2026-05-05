@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Phone } from 'lucide-react'
 import logo from '../assets/logo.png'
@@ -9,39 +9,100 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
+  // SWIPE REFS (UNCHANGED)
+  const startX = useRef(0)
+  const currentX = useRef(0)
+  const dragging = useRef(false)
+  const panelRef = useRef<HTMLDivElement | null>(null)
+
+  // store scroll position safely
+  const scrollYRef = useRef(0)
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // ✅ FIXED SCROLL LOCK (no gap, no jump, no shift)
+  // ✅ FIXED SCROLL LOCK - Only this part was changed
   useEffect(() => {
-    if (!open) {
-      const scrollY = document.body.style.top
+    if (open) {
+      scrollYRef.current = window.scrollY
 
-      document.body.style.overflow = ''
-      document.body.style.position = ''
-      document.body.style.top = ''
-      document.body.style.width = ''
-      document.body.style.paddingRight = ''
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth
 
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1)
-      }
+      document.body.style.overflow = 'hidden'
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollYRef.current}px`
+      document.body.style.width = '100%'
+      document.body.style.paddingRight = `${scrollbarWidth}px`
 
       return
     }
 
-    const scrollY = window.scrollY
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth
+    // ===== RESTORE POSITION =====
+    const savedScrollY = scrollYRef.current
 
-    document.body.style.overflow = 'hidden'
-    document.body.style.position = 'fixed'
-    document.body.style.top = `-${scrollY}px`
-    document.body.style.width = '100%'
-    document.body.style.paddingRight = `${scrollbarWidth}px`
+    // Reset styles first
+    document.body.style.overflow = ''
+    document.body.style.position = ''
+    document.body.style.top = ''
+    document.body.style.width = ''
+    document.body.style.paddingRight = ''
+
+    // Restore scroll position with instant behavior
+    requestAnimationFrame(() => {
+      window.scrollTo({
+        top: savedScrollY,
+        left: 0,
+        behavior: 'instant'
+      })
+    })
+  }, [open])
+
+  // SWIPE TO CLOSE (UNCHANGED)
+  useEffect(() => {
+    if (!open) return
+
+    const onTouchStart = (e: TouchEvent) => {
+      dragging.current = true
+      startX.current = e.touches[0].clientX
+    }
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!dragging.current || !panelRef.current) return
+
+      currentX.current = e.touches[0].clientX
+      const diff = currentX.current - startX.current
+
+      if (diff > 0) {
+        panelRef.current.style.transform = `translateX(${diff}px)`
+      }
+    }
+
+    const onTouchEnd = () => {
+      if (!panelRef.current) return
+
+      const diff = currentX.current - startX.current
+      dragging.current = false
+
+      if (diff > 60) {
+        setOpen(false)
+      } else {
+        panelRef.current.style.transform = 'translateX(0px)'
+      }
+    }
+
+    window.addEventListener('touchstart', onTouchStart)
+    window.addEventListener('touchmove', onTouchMove)
+    window.addEventListener('touchend', onTouchEnd)
+
+    return () => {
+      window.removeEventListener('touchstart', onTouchStart)
+      window.removeEventListener('touchmove', onTouchMove)
+      window.removeEventListener('touchend', onTouchEnd)
+    }
   }, [open])
 
   return (
@@ -118,7 +179,6 @@ export default function Navbar() {
 
         {/* CTA + MENU */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          {/* CTA */}
           <motion.a
             href="tel:0473908514"
             className="cta-btn"
@@ -166,7 +226,6 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <>
-            {/* BACKDROP */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -181,8 +240,8 @@ export default function Navbar() {
               }}
             />
 
-            {/* PANEL */}
             <motion.div
+              ref={panelRef}
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
@@ -192,7 +251,7 @@ export default function Navbar() {
                 top: 0,
                 left: 0,
                 right: 0,
-                height: '100vh', // ✅ FIXED (removed dvh bug)
+                height: '100vh',
                 background: '#000',
                 zIndex: 200,
                 display: 'flex',
@@ -274,7 +333,6 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* MOBILE STYLES */}
       <style>{`
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }

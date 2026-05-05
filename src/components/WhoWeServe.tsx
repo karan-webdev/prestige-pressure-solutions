@@ -127,14 +127,32 @@ export default function WhoWeServe() {
               key={s.id}
               onClick={() => setActive(i)}
               style={{
-                background: 'none', border: 'none',
-                borderBottom: active === i ? '2px solid var(--accent)' : '2px solid transparent',
-                padding: '14px 28px',
-                fontFamily: 'var(--font-condensed)', fontWeight: 700,
-                fontSize: '13px', letterSpacing: '0.1em',
-                color: active === i ? 'white' : 'rgba(255,255,255,0.35)',
-                cursor: 'pointer', whiteSpace: 'nowrap',
-              }}
+  background: 'none',
+  border: 'none',
+  borderBottom:
+    active === i ? '2px solid var(--accent)' : '2px solid transparent',
+  padding: '14px 28px',
+  fontFamily: 'var(--font-condensed)',
+  fontWeight: 700,
+  fontSize: '13px',
+  letterSpacing: '0.1em',
+  color: active === i ? 'white' : 'rgba(255,255,255,0.35)',
+  cursor: 'pointer',
+  whiteSpace: 'nowrap',
+
+  // ✅ ADD THIS
+  transition: 'color 0.2s ease, border-color 0.2s ease',
+}}
+onMouseEnter={(e) => {
+  if (active !== i) {
+    e.currentTarget.style.color = '#ffffff'
+  }
+}}
+onMouseLeave={(e) => {
+  if (active !== i) {
+    e.currentTarget.style.color = 'rgba(255,255,255,0.35)'
+  }
+}}
             >
               {s.label}
             </button>
