@@ -91,7 +91,7 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
     }
   }, [])
 
-  const isRight = index % 2 === 1
+  // const isRight = index % 2 === 1
 
   return (
     <motion.div
