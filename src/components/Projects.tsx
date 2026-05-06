@@ -30,7 +30,7 @@ const projects = [
 const stats = [
   { num: '500+', label: 'JOBS COMPLETED' },
   { num: '100%', label: 'MOBILE SERVICE' },
-  { num: '5★', label: 'AVERAGE RATING' },
+  { num: '5', label: 'AVERAGE RATING', isRating: true },
   { num: '0', label: 'COMPLAINTS' },
 ]
 
@@ -133,7 +133,6 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           userSelect: 'none',
         }}
       >
-        {/* AFTER */}
         <div
           style={{
             position: 'absolute',
@@ -144,7 +143,6 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           }}
         />
 
-        {/* BEFORE */}
         <div
           ref={beforeRef}
           style={{
@@ -157,7 +155,6 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           }}
         />
 
-        {/* GRADIENT */}
         <div
           style={{
             position: 'absolute',
@@ -168,7 +165,6 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           }}
         />
 
-        {/* DIVIDER */}
         <div
           ref={dividerRef}
           style={{
@@ -206,7 +202,6 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           </div>
         </div>
 
-        {/* LABELS */}
         <div
           style={{
             position: 'absolute',
@@ -241,7 +236,6 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           AFTER
         </div>
 
-        {/* TEXT */}
         <div
           style={{
             position: 'absolute',
@@ -266,7 +260,6 @@ function SliderCard({ project, index }: { project: Project; index: number }) {
           </div>
         </div>
 
-        {/* DRAG HINT */}
         <div
           style={{
             position: 'absolute',
@@ -295,7 +288,6 @@ export default function Projects() {
       style={{ background: '#f2f2f0', padding: '5rem 1.5rem' }}
     >
       <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-        {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -351,7 +343,6 @@ export default function Projects() {
           </motion.p>
         </div>
 
-        {/* GRID */}
         <div
           className="projects-grid"
           style={{
@@ -365,7 +356,6 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* STATS */}
         <motion.div
           className="stats-grid"
           initial={{ opacity: 0, y: 30 }}
@@ -395,7 +385,16 @@ export default function Projects() {
               style={{ textAlign: 'center', position: 'relative' }}
             >
               {i !== stats.length - 1 && <div className="stat-divider" />}
-              <div className="stat-num">{s.num}</div>
+              <div className="stat-num">
+                {s.isRating ? (
+                  <span className="rating-wrap">
+                    <span className="rating-num">5</span>
+                    <span className="rating-star">★</span>
+                  </span>
+                ) : (
+                  s.num
+                )}
+              </div>
               <div className="stat-label">{s.label}</div>
             </motion.div>
           ))}
@@ -411,6 +410,23 @@ export default function Projects() {
         }
         .stat-num { font-size: 44px; font-weight: 900; color: #0087F2; }
         .stat-label { font-size: 11px; color: rgba(255,255,255,0.55); }
+
+        .rating-wrap {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+        }
+
+        .rating-num {
+          line-height: 1;
+        }
+
+        .rating-star {
+          font-size: 0.7em;
+          line-height: 1;
+          position: relative;
+          top: -1px;
+        }
 
         @media (max-width: 768px) {
           .projects-grid { grid-template-columns: 1fr !important; }
