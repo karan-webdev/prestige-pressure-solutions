@@ -10,10 +10,10 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
 
   // SWIPE REFS (UNCHANGED)
-  const startX = useRef(0)
-  const currentX = useRef(0)
-  const dragging = useRef(false)
-  const panelRef = useRef(null)
+  const startX = useRef<number>(0)
+  const currentX = useRef<number>(0)
+  const dragging = useRef<boolean>(false)
+  const panelRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -37,12 +37,12 @@ export default function Navbar() {
   useEffect(() => {
     if (!open) return
 
-    const onTouchStart = (e) => {
+    const onTouchStart = (e: TouchEvent) => {
       dragging.current = true
       startX.current = e.touches[0].clientX
     }
 
-    const onTouchMove = (e) => {
+    const onTouchMove = (e: TouchEvent) => {
       if (!dragging.current || !panelRef.current) return
 
       currentX.current = e.touches[0].clientX
@@ -136,13 +136,12 @@ export default function Navbar() {
                 textDecoration: 'none',
                 transition: 'color 0.2s ease',
               }}
-              onMouseEnter={e =>
-                (e.currentTarget.style.color = '#ffffff')
-              }
-              onMouseLeave={e =>
-                (e.currentTarget.style.color =
-                  'rgba(255,255,255,0.75)')
-              }
+              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                e.currentTarget.style.color = '#ffffff'
+              }}
+              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                e.currentTarget.style.color = 'rgba(255,255,255,0.75)'
+              }}
             >
               {link.toUpperCase()}
             </a>
