@@ -40,7 +40,7 @@ const faqs = [
       <>
         A roof clean involves removing dirt, moss, and buildup using soft washing methods.
         <br /><br />
-        A roof restoration is a much bigger job that includes repairs, repainting, and sealing.
+        Roof restoration work is typically needed for more extreme cases of organic growth and long-term roof wear, and can include services like sealing.
         <br /><br />
         We specialise in cleaning, but we’ll always let you know if your roof may need further work beyond that.
       </>
