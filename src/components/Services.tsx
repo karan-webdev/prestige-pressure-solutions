@@ -304,7 +304,7 @@ export default function Services() {
           style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}
         >
           <motion.a
-            href="tel:0473908514"
+            href="#contact"
             whileHover={{ backgroundColor: '#006edc' }}
             whileTap={{ backgroundColor: '#005bb8' }}
             transition={{ duration: 0.2 }}

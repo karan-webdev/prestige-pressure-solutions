@@ -241,7 +241,7 @@ onMouseLeave={(e) => {
             </div>
 
             <motion.a
-              href="tel:0473908514"
+              href="#contact"
               whileHover={{ backgroundColor: '#006edc' }}
               whileTap={{ backgroundColor: '#005bb8' }}
               transition={{ duration: 0.2 }}
