@@ -172,7 +172,7 @@ export default function ContactBanner() {
             }}
           >
             <form
-              action="https://formsubmit.co/prestigepressuresolutionswa@gmail.com"
+              action="https://formspree.io/f/xbjndlza"
               method="POST"
               style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}
             >
