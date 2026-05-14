@@ -177,9 +177,7 @@ export default function ContactBanner() {
               style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}
             >
               {/* hidden inputs */}
-              <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_subject" value="New Quote Request" />
-              <input type="hidden" name="_template" value="table" />
 
               {[
                 { icon: User, placeholder: 'Full Name', name: 'name' },
